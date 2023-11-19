@@ -7,7 +7,7 @@ const Product = ({ food }) => {
   const { name, description, price } = food
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-4 gap-4 p-4 items-center shadow-xl'>
+      <div className='grid grid-cols-1 sm:grid-cols-4 gap-4 p-4 items-center shadow-xl bg-[#F7F6FF] mr-2'>
         <div className='md:col-span-1'>
           <img src={foodImg} alt={name} className='w-full h-auto' />
         </div>

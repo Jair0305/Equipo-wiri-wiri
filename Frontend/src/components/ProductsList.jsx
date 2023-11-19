@@ -5,7 +5,7 @@ const ProductsList = ({ food }) => {
   return (
     <>
       {food.length && (
-        <div className='flex flex-col gap-8 m-8'>
+        <div className='flex flex-col gap-8 m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto'>
           {food.map((food) => (
             <Product key={food?.id} food={food} />
           ))}
