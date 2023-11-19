@@ -1,0 +1,98 @@
+{
+  "food": [
+    {
+      "id": 1,
+      "name": "Hamburguesa",
+      "description": "Deliciosa hamburguesa con carne, lechuga y tomate.",
+      "price": 169.99
+    },
+    {
+      "id": 2,
+      "name": "Pizza",
+      "description": "Pizza con pepperoni, queso y salsa de tomate.",
+      "price": 199.99
+    },
+    {
+      "id": 3,
+      "name": "Ensalada César",
+      "description": "Ensalada fresca con pollo a la parrilla y aderezo César.",
+      "price": 134.99
+    },
+    {
+      "id": 4,
+      "name": "Sushi",
+      "description": "Variedad de rollos de sushi con pescado fresco y aguacate.",
+      "price": 259.99
+    },
+    {
+      "id": 5,
+      "name": "Pasta Alfredo",
+      "description": "Pasta con salsa Alfredo cremosa y pollo.",
+      "price": 224.99
+    }
+  ],
+  "drinks": [
+    {
+      "id": 1,
+      "name": "Refresco",
+      "description": "Refresco frío y burbujeante.",
+      "price": 39.99
+    },
+    {
+      "id": 2,
+      "name": "Café",
+      "description": "Café caliente y aromático.",
+      "price": 49.99
+    },
+    {
+      "id": 3,
+      "name": "Batido de Frutas",
+      "description": "Batido refrescante con una mezcla de frutas.",
+      "price": 79.99
+    },
+    {
+      "id": 4,
+      "name": "Cerveza",
+      "description": "Cerveza fría y espumosa.",
+      "price": 99.99
+    },
+    {
+      "id": 5,
+      "name": "Jugo de Naranja",
+      "description": "Jugo natural de naranja recién exprimido.",
+      "price": 59.99
+    }
+  ],
+  "desserts": [
+    {
+      "id": 1,
+      "name": "Tarta de Chocolate",
+      "description": "Tarta rica y decadente de chocolate.",
+      "price": 119.99
+    },
+    {
+      "id": 2,
+      "name": "Helado de Vainilla",
+      "description": "Helado suave y cremoso de vainilla.",
+      "price": 69.99
+    },
+    {
+      "id": 3,
+      "name": "Pastel de Queso",
+      "description": "Pastel de queso horneado con salsa de frutas.",
+      "price": 139.99
+    },
+    {
+      "id": 4,
+      "name": "Crepes de Fresa",
+      "description": "Crepes rellenos de fresas frescas y crema.",
+      "price": 99.99
+    },
+    {
+      "id": 5,
+      "name": "Mousse de Frambuesa",
+      "description": "Mousse ligero de frambuesa con decoración de frutas.",
+      "price": 109.99
+    }
+  ]
+}
