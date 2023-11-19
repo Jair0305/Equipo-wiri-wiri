@@ -3,7 +3,7 @@ import './global.css'
 function App() {
   return (
     <div>
-      <h1>Hola</h1>
+      <h1 className=''>Hola</h1>
     </div>
   )
 }
