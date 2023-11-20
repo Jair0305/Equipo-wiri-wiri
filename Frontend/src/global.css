@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  font-family: 'Outfit', sans-serif;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 5px;

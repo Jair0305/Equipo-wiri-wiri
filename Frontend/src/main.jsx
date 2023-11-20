@@ -55,7 +55,7 @@ const router = createBrowserRouter([
   //   ],
   // },
   // {
-  //   path: '/cocina',
+  //   path: '/kitchen',
   //   element: <Kitchen />,
   // },
 ])

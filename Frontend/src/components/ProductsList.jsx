@@ -1,17 +1,23 @@
 import Product from './Product'
 import PropTypes from 'prop-types'
 
-const ProductsList = ({ food }) => {
+const ProductsList = ({ food, productsInCart, setProductsInCart }) => {
   return (
     <>
       {food.length ? (
-        <div className='flex flex-col gap-8 m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto'>
+        <div className='flex flex-col m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto '>
           {food.map((food) => (
-            <Product key={food?.id} food={food} />
+            <Product
+              key={food?.id}
+              food={food}
+              productsInCart={productsInCart}
+              setProductsInCart={setProductsInCart}
+              className={`mb-2`}
+            />
           ))}
         </div>
       ) : (
-        <p>Theres no food for today</p>
+        <p className='text-center text-3xl mt-[10%]'>No hay comida por hoy.</p>
       )}
     </>
   )

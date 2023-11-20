@@ -1,4 +1,4 @@
-import munchEZLogo from '../../public/logos/MuncEZ-dark.svg'
+import munchEZLogo from '../assets/logos/MuncEZ-dark.svg'
 
 const Header = () => {
   return (
