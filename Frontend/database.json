@@ -33,31 +33,31 @@
   ],
   "drinks": [
     {
-      "id": 1,
+      "id": 6,
       "name": "Refresco",
       "description": "Refresco frío y burbujeante.",
       "price": 39.99
     },
     {
-      "id": 2,
+      "id": 7,
       "name": "Café",
       "description": "Café caliente y aromático.",
       "price": 49.99
     },
     {
-      "id": 3,
+      "id": 8,
       "name": "Batido de Frutas",
       "description": "Batido refrescante con una mezcla de frutas.",
       "price": 79.99
     },
     {
-      "id": 4,
+      "id": 9,
       "name": "Cerveza",
       "description": "Cerveza fría y espumosa.",
       "price": 99.99
     },
     {
-      "id": 5,
+      "id": 10,
       "name": "Jugo de Naranja",
       "description": "Jugo natural de naranja recién exprimido.",
       "price": 59.99
@@ -65,31 +65,31 @@
   ],
   "desserts": [
     {
-      "id": 1,
+      "id": 11,
       "name": "Tarta de Chocolate",
       "description": "Tarta rica y decadente de chocolate.",
       "price": 119.99
     },
     {
-      "id": 2,
+      "id": 12,
       "name": "Helado de Vainilla",
       "description": "Helado suave y cremoso de vainilla.",
       "price": 69.99
     },
     {
-      "id": 3,
+      "id": 13,
       "name": "Pastel de Queso",
       "description": "Pastel de queso horneado con salsa de frutas.",
       "price": 139.99
     },
     {
-      "id": 4,
+      "id": 14,
       "name": "Crepes de Fresa",
       "description": "Crepes rellenos de fresas frescas y crema.",
       "price": 99.99
     },
     {
-      "id": 5,
+      "id": 15,
       "name": "Mousse de Frambuesa",
       "description": "Mousse ligero de frambuesa con decoración de frutas.",
       "price": 109.99

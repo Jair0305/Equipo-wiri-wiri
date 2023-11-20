@@ -2,14 +2,16 @@ import PropTypes from 'prop-types'
 import foodImg from '../assets/images/food.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { useLocation } from 'react-router-dom'
 
 const Product = ({ food, productsInCart, setProductsInCart }) => {
   const { name, description, price, id } = food
   const product = { id, name, description, price }
 
+  const location = useLocation()
+
   const addToCart = () => {
     const isProductInCart = productsInCart.some((cartProduct) => cartProduct.id === product.id)
-
     if (!isProductInCart) {
       setProductsInCart((prevProducts) => {
         const updatedProducts = [...prevProducts, product]
@@ -50,6 +52,8 @@ Product.propTypes = {
     description: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   }).isRequired,
+  productsInCart: PropTypes.array.isRequired,
+  setProductsInCart: PropTypes.func.isRequired,
 }
 
 export default Product

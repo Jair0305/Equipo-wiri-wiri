@@ -88,7 +88,7 @@ const Cart = () => {
           </div>
         </section>
         {/* Products in cart */}
-        <section className='flex flex-col justify-center items-center p-4'>
+        <section className='flex flex-col justify-start items-center p-4 overflow-y-auto max-h-[300px] mt-4 pt-2'>
           {productsInCart.length ? (
             productsInCart.map((product) => (
               <ProductInCart key={product.id} product={product} setProductsInCart={setProductsInCart} />
@@ -120,6 +120,7 @@ const Cart = () => {
             placeholder='Notas Adicionales'
             className='w-full min-h-[120px] max-h-[120px] rounded-3xl p-4 border-[#ABA7A7] border-[1px] resize-none text-lg'></textarea>
         </section>
+        {/* Button to Send order | Clear form  */}
         <section className='w-full flex justify-evenly mt-8'>
           <button className='border-4 border-[#3F9F7F] px-6 py-4 rounded-[20px] text-[#3F9F7F] font-bold text-xl'>
             <FontAwesomeIcon icon={faPaperPlane} className='mr-2' />
