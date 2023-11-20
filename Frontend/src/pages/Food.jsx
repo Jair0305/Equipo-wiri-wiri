@@ -1,6 +1,6 @@
 import ProductsList from '../components/ProductsList'
-import { ProductsContext } from '../Helpers/Context'
 import { ProductsInCartContext } from '../Helpers/Context'
+import { ProductsContext } from '../Helpers/Context'
 import { useContext } from 'react'
 
 const Food = () => {

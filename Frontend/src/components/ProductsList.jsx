@@ -7,13 +7,7 @@ const ProductsList = ({ food, productsInCart, setProductsInCart }) => {
       {food.length ? (
         <div className='flex flex-col m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto '>
           {food.map((food) => (
-            <Product
-              key={food?.id}
-              food={food}
-              productsInCart={productsInCart}
-              setProductsInCart={setProductsInCart}
-              className={`mb-2`}
-            />
+            <Product key={food?.id} food={food} productsInCart={productsInCart} setProductsInCart={setProductsInCart} />
           ))}
         </div>
       ) : (
@@ -25,6 +19,8 @@ const ProductsList = ({ food, productsInCart, setProductsInCart }) => {
 
 ProductsList.propTypes = {
   food: PropTypes.array.isRequired,
+  productsInCart: PropTypes.array.isRequired,
+  setProductsInCart: PropTypes.func.isRequired,
 }
 
 export default ProductsList
