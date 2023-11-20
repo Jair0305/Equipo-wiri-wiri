@@ -1,17 +1,16 @@
-import { useLoaderData } from 'react-router-dom'
-import { getProducts } from '../api/products'
 import ProductsList from '../components/ProductsList'
-
-export async function loader() {
-  // traer informacion de la api
-  const products = await getProducts()
-  return products.food
-}
+import { ProductsContext } from '../Helpers/Context'
+import { useContext } from 'react'
 
 const Food = () => {
-  const food = useLoaderData()
+  const { products, setProducts } = useContext(ProductsContext)
+  const { food } = products
 
-  return <ProductsList food={food} />
+  return (
+    <>
+      <ProductsList food={food} />
+    </>
+  )
 }
 
 export default Food
