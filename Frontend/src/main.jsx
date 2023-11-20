@@ -5,10 +5,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './components/Layout'
 import ErrorPage from './components/ErrorPage'
 // pages
-
-import Food, { loader as foodLoader } from './pages/Food'
-import Drinks, { loaderdrink as drinksLoader } from './pages/Drinks'
-import Desserts, { loaderdesserts as dessertsLoader } from './pages/Desserts'
+import Drinks from './pages/Drinks'
+import Food from './pages/Food'
+import Desserts from './pages/Desserts'
 import Home from './pages/Home'
 // styles
 import './global.css'
@@ -26,19 +25,17 @@ const router = createBrowserRouter([
       {
         path: '/food',
         element: <Food />,
-        loader: foodLoader,
+        // loader: foodLoader,
         ErrorBoundary: () => <ErrorPage />,
       },
       {
         path: '/drinks',
         element: <Drinks />,
-        loader: drinksLoader,
         ErrorBoundary: () => <ErrorPage />,
       },
       {
         path: '/desserts',
         element: <Desserts />,
-        loader: dessertsLoader,
         ErrorBoundary: () => <ErrorPage />,
       },
     ],
@@ -68,4 +65,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <RouterProvider router={router} />
   </React.StrictMode>
 )
+
 
