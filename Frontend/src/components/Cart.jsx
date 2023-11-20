@@ -15,7 +15,7 @@ const Cart = () => {
   const [isTextFocused, setIsTextFocused] = useState(false)
   const [total, setTotal] = useState(0)
 
-  const handleTextFocus = (e) => {
+  const handleTextFocus = () => {
     setIsTextFocused(true)
   }
 
