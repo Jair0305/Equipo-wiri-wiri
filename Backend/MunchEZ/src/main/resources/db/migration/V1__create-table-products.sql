@@ -3,6 +3,6 @@ CREATE TABLE products (
     pro_name VARCHAR(100) NOT NULL,
     pro_price INT NOT NULL,
     pro_description VARCHAR(200),
-
+    pro_type ENUM('FOOD', 'DRINKS', 'DESSERTS'),
     PRIMARY KEY (pro_id)
 );
