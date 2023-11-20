@@ -1,7 +1,15 @@
+import ProductsListDesserts from '../components/ProductsListDesserts'
+import { ProductsContext } from '../Helpers/Context'
+import { useContext } from 'react'
 
 const Desserts = () => {
+  const { products, setProducts } = useContext(ProductsContext)
+  const { desserts } = products
+
   return (
-    <div>Desserts</div>
+    <>
+      <ProductsListDesserts desserts={desserts} />
+    </>
   )
 }
 
