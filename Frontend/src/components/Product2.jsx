@@ -37,4 +37,5 @@ Product.propTypes = {
   }).isRequired,
 }
 
+
 export default Product
