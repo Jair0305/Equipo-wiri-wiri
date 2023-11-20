@@ -54,6 +54,10 @@ const router = createBrowserRouter([
   //     },
   //   ],
   // },
+  // {
+  //   path: '/cocina',
+  //   element: <Kitchen />,
+  // },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
