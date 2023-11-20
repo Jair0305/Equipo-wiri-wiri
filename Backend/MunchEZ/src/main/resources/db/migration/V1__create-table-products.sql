@@ -1,8 +1,8 @@
 CREATE TABLE products (
-    pro_id INT NOT NULL AUTO_INCREMENT,
-    pro_name VARCHAR(100) NOT NULL,
-    pro_price INT NOT NULL,
-    pro_description VARCHAR(200),
-    pro_type ENUM('FOOD', 'DRINKS', 'DESSERTS'),
-    PRIMARY KEY (pro_id)
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    price INT NOT NULL,
+    description VARCHAR(200),
+    type ENUM('FOOD', 'DRINKS', 'DESSERTS'),
+    PRIMARY KEY (id)
 );

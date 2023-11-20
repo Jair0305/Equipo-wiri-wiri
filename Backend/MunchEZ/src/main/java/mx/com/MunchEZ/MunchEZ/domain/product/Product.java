@@ -1,10 +1,7 @@
 package mx.com.MunchEZ.MunchEZ.domain.product;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Table(name = "products")
 @Entity(name = "Product")
@@ -17,12 +14,15 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int price;
+    private double price;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
-//
-//    pro_id INT NOT NULL AUTO_INCREMENT,
-//    pro_name VARCHAR(100) NOT NULL,
-//    pro_price INT NOT NULL,
-//    pro_description VARCHAR(200),
+    public Product(DataRegisterProduct dataRegisterProduct) {
+        this.name = dataRegisterProduct.name();
+        this.price = dataRegisterProduct.price();
+        this.description = dataRegisterProduct.description();
+        this.type = dataRegisterProduct.type();
+    }
 }
