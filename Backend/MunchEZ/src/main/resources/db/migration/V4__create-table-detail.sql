@@ -6,12 +6,12 @@ CREATE TABLE IF NOT EXISTS detail(
      PRIMARY KEY (det_ord_id, det_pro_id),
      CONSTRAINT fk_orders_detail
          FOREIGN KEY (det_ord_id)
-             REFERENCES orders(ord_id)
+             REFERENCES orders(id)
              ON DELETE CASCADE
              ON UPDATE CASCADE,
      CONSTRAINT fk_products_detail
          FOREIGN KEY (det_pro_id)
-             REFERENCES products(pro_id)
+             REFERENCES products(id)
              ON DELETE NO ACTION
              ON UPDATE NO ACTION
 );
