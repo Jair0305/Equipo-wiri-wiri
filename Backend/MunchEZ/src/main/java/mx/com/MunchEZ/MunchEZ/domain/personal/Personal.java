@@ -22,6 +22,6 @@ public class Personal {
     private String password;
     private String active;
     @Enumerated(EnumType.STRING)
-    private String role;
+    private Role role;
     private String phone;
 }
