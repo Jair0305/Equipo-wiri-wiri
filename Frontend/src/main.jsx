@@ -6,7 +6,7 @@ import Layout from './components/Layout'
 import ErrorPage from './components/ErrorPage'
 // pages
 import Drinks from './pages/Drinks'
-import Food, { loader as foodLoader } from './pages/Food'
+import Food from './pages/Food'
 import Desserts from './pages/Desserts'
 import Home from './pages/Home'
 // styles
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: '/food',
         element: <Food />,
-        loader: foodLoader,
+        // loader: foodLoader,
         ErrorBoundary: () => <ErrorPage />,
       },
       {
