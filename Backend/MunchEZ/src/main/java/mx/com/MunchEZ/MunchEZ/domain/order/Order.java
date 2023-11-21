@@ -38,4 +38,6 @@ public class Order {
         this.name = dataRegisterOrder.name();
         this.state = dataRegisterOrder.state();
     }
+
+    
 }
