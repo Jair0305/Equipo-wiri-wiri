@@ -24,27 +24,31 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping
-    public ResponseEntity<Page<DataListProduct>> listar(@PageableDefault(size = 10, page = 0, sort = {"type"}) Pageable pageable) {
+    public ResponseEntity<Page<DataListProduct>> listar(@PageableDefault(size = 10, page = 0, sort = {"type"}) Pageable pageable)
+    {
         var page = ResponseEntity.ok(productRepository.findAll(pageable).map(DataListProduct::new));
         return ResponseEntity.ok(page.getBody());
     }
 
     @GetMapping("/drinks")
-    public List<Product> getProdcutsByDrinks() {
+    public List<Product> getProdcutsByDrinks()
+    {
         return productRepository.findAllByType(Type.DRINKS);
     }
     @GetMapping("/food")
-    public List<Product> getProductsByFood() {
+    public List<Product> getProductsByFood()
+    {
         return productRepository.findAllByType(Type.FOOD);
     }
     @GetMapping("/desserts")
-    public List<Product> getProductsByDesserts() {
+    public List<Product> getProductsByDesserts()
+    {
         return productRepository.findAllByType(Type.DESSERTS);
     }
 
     @PostMapping
-    public ResponseEntity<DataResponseProduct> registerProduct(@RequestBody @Valid DataRegisterProduct dataRegisterProduct, UriComponentsBuilder uriComponentsBuilder) {
-
+    public ResponseEntity<DataResponseProduct> registerProduct(@RequestBody @Valid DataRegisterProduct dataRegisterProduct, UriComponentsBuilder uriComponentsBuilder)
+    {
         Product product = productRepository.save(new Product(dataRegisterProduct));
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
 

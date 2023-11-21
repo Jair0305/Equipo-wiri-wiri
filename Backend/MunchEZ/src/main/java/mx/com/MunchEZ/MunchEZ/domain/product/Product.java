@@ -2,6 +2,9 @@ package mx.com.MunchEZ.MunchEZ.domain.product;
 
 import jakarta.persistence.*;
 import lombok.*;
+import mx.com.MunchEZ.MunchEZ.domain.detail.Detail;
+
+import java.util.Set;
 
 @Table(name = "products")
 @Entity(name = "Product")
@@ -18,6 +21,9 @@ public class Product {
     private String description;
     @Enumerated(EnumType.STRING)
     private Type type;
+
+    @ManyToMany(mappedBy = "products")
+    private Set<Detail> details;
 
     public Product(DataRegisterProduct dataRegisterProduct) {
         this.name = dataRegisterProduct.name();
