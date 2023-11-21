@@ -6,5 +6,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record DataRegisterOrder(@NotBlank String state, @NotNull @Future LocalDateTime data, @NotNull double total, @NotNull boolean active, @NotBlank String num, @NotBlank String name) {
+public record DataRegisterOrder(@NotNull State state, @NotNull @Future LocalDateTime data, @NotNull double total, @NotNull boolean active, @NotBlank String num, @NotBlank String name) {
 }

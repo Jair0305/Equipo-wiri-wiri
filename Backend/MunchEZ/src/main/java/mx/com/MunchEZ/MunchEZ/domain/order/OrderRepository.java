@@ -2,6 +2,7 @@ package mx.com.MunchEZ.MunchEZ.domain.order;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -13,7 +14,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findAllById(Long id);
 
-    List<Order> findAllByData(String data);
+    List<Order> findAllByData(LocalDateTime data);
 
     List<Order> findAllByName(String name);
 
