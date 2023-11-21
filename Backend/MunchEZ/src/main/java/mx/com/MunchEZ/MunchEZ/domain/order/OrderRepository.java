@@ -1,4 +1,21 @@
 package mx.com.MunchEZ.MunchEZ.domain.order;
-public interface OrderRepository {
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    List<Order> findAllByState(State state);
+
+    List<Order> findAllByActive(Boolean active);
+
+    List<Order> findAllByNum(String num);
+
+    List<Order> findAllById(Long id);
+
+    List<Order> findAllByData(String data);
+
+    List<Order> findAllByName(String name);
+
+    List<Order> findAllByStateAndActive(State state, Boolean active);
 }
