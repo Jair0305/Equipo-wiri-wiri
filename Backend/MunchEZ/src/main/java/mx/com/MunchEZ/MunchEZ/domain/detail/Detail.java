@@ -20,10 +20,12 @@ public class Detail {
     private DetailID id;
 
     @ManyToOne
+    @MapsId("det_ord_id")
     @JoinColumn(name = "det_ord_id", insertable = false, updatable = false)
     private Order order;
 
     @ManyToOne
+    @MapsId("det_pro_id")
     @JoinColumn(name = "det_pro_id", insertable = false, updatable = false)
     private Product product;
 

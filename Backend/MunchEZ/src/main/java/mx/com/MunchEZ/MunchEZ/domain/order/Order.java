@@ -39,5 +39,5 @@ public class Order {
         this.state = dataRegisterOrder.state();
     }
 
-    
+
 }
