@@ -28,10 +28,7 @@ public class Order {
     private String num;
     private String name;
     @Enumerated(EnumType.STRING)
-    private String state;
-
-    @ManyToMany(mappedBy = "orders")
-    private Set<Detail> details;
+    private State state;
 
     public Order(DataRegisterOrder dataRegisterOrder) {
         this.data = dataRegisterOrder.data();
@@ -41,4 +38,6 @@ public class Order {
         this.name = dataRegisterOrder.name();
         this.state = dataRegisterOrder.state();
     }
+
+
 }

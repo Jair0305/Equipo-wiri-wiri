@@ -22,8 +22,6 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @ManyToMany(mappedBy = "products")
-    private Set<Detail> details;
 
     public Product(DataRegisterProduct dataRegisterProduct) {
         this.name = dataRegisterProduct.name();

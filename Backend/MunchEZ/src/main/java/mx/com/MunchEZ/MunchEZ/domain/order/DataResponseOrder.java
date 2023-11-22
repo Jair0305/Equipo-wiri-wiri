@@ -1,6 +1,9 @@
 package mx.com.MunchEZ.MunchEZ.domain.order;
 
-import java.time.LocalDateTime;
+import mx.com.MunchEZ.MunchEZ.domain.detail.DataRegisterDetail;
 
-public record DataResponseOrder(Long id, String state, LocalDateTime data, double total, Boolean active, String num, String name) {
+import java.time.LocalDateTime;
+import java.util.List;
+
+public record DataResponseOrder(Long id, State state, LocalDateTime data, double total, Boolean active, String num, String name) {
 }
