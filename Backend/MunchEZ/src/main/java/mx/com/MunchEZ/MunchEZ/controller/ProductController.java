@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,11 +24,38 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping
-    public ResponseEntity<Page<DataListProduct>> listar(@PageableDefault(size = 10, page = 0, sort = {"type"}) Pageable pageable)
-    {
-        var page = ResponseEntity.ok(productRepository.findAll(pageable).map(DataListProduct::new));
-        return ResponseEntity.ok(page.getBody());
+//    @GetMapping
+//    public ResponseEntity<Page<DataListProduct>> listar(@PageableDefault(size = 10, page = 0, sort = {"type"}) Pageable pageable)
+//    {
+//        var page = ResponseEntity.ok(productRepository.findAll(pageable).map(DataListProduct::new));
+//        return ResponseEntity.ok(page.getBody());
+//    }
+
+    @GetMapping("/all")
+    public ResponseEntity<DataProductByTypeResponse> getAllProductsByType() {
+        List<Product> allProducts = productRepository.findAll();
+
+        List<Product> foodList = new ArrayList<>();
+        List<Product> drinksList = new ArrayList<>();
+        List<Product> dessertsList = new ArrayList<>();
+
+        for (Product product : allProducts) {
+            switch (product.getType()) {
+                case FOOD:
+                    foodList.add(product);
+                    break;
+                case DRINKS:
+                    drinksList.add(product);
+                    break;
+                case DESSERTS:
+                    dessertsList.add(product);
+                    break;
+                // Puedes agregar más casos según tus tipos de productos
+            }
+        }
+
+        DataProductByTypeResponse response = new DataProductByTypeResponse(foodList, drinksList, dessertsList);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/drinks")
