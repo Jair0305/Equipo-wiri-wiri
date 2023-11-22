@@ -1,12 +1,9 @@
 CREATE TABLE IF NOT EXISTS personal(
    id INT NOT NULL AUTO_INCREMENT,
    name VARCHAR(50) NOT NULL,
-   position ENUM('CASHIER', 'KITCHEN', 'ADMIN') NOT NULL,
-   user VARCHAR(20) NOT NULL,
-   password VARCHAR(14) NOT NULL,
-   phone_num VARCHAR(20) NOT NULL,
+   role ENUM('CASHIER', 'KITCHEN', 'ADMIN') NOT NULL,
+   phone VARCHAR(20) NOT NULL,
    active TINYINT UNSIGNED,
    PRIMARY KEY (id),
-   UNIQUE(user),
-   UNIQUE(phone_num)
+   UNIQUE(phone)
 );
