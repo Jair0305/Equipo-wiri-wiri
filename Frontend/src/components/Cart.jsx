@@ -12,8 +12,9 @@ const Cart = () => {
 
   const [customerName, setCustomerName] = useState('')
   const [isTakeout, setIsTakeout] = useState(false) // New state for takeout option
-  const [isTextFocused, setIsTextFocused] = useState(false)
   const [total, setTotal] = useState(0)
+
+  const [isTextFocused, setIsTextFocused] = useState(false)
 
   const handleTextFocus = () => {
     setIsTextFocused(true)
@@ -113,12 +114,13 @@ const Cart = () => {
           </div>
         </section>
         {/* Additional Notes */}
-        <section className='flex justify-between mt-4 w-full'>
+        <section className='flex justify-between mt-4 w-full rounded-3xl overflow-hidden border-[#ABA7A7] border-[1px]'>
           <textarea
             name='additional-notes'
             id='additionalNotes'
             placeholder='Notas Adicionales'
-            className='w-full min-h-[120px] max-h-[120px] rounded-3xl p-4 border-[#ABA7A7] border-[1px] resize-none text-lg'></textarea>
+            className='w-full min-h-[120px] max-h-[120px] rounded-3xl px-4 py-2  resize-none text-lg'
+            maxLength={250}></textarea>
         </section>
         {/* Button to Send order | Clear form  */}
         <section className='w-full flex justify-evenly mt-8'>
