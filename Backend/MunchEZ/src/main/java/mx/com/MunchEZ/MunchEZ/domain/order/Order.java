@@ -43,6 +43,7 @@ public class Order {
 
     public void cancelOrder() {
         this.active = Boolean.FALSE;
+        this.state = State.CANCELLED;
     }
 
     public void deliveredOrder() {
