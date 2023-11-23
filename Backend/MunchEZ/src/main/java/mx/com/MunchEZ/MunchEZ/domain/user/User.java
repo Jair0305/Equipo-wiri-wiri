@@ -2,6 +2,7 @@ package mx.com.MunchEZ.MunchEZ.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import mx.com.MunchEZ.MunchEZ.domain.personal.DataPersonalResponse;
 import mx.com.MunchEZ.MunchEZ.domain.personal.Personal;
 
 @Table(name = "users")
@@ -21,10 +22,12 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "personal_id")
-    private Personal personal;
+    private Personal personal_id;
 
     public User(DataRegisterUser dataRegisterUser) {
         this.username = dataRegisterUser.username();
         this.password = dataRegisterUser.password();
+
+        this.personal_id = new Personal(dataRegisterUser.personal_id());
     }
 }
