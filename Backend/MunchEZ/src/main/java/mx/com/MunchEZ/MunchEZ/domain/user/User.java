@@ -22,4 +22,9 @@ public class User {
     @OneToOne
     @JoinColumn(name = "personal_id")
     private Personal personal;
+
+    public User(DataRegisterUser dataRegisterUser) {
+        this.username = dataRegisterUser.username();
+        this.password = dataRegisterUser.password();
+    }
 }

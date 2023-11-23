@@ -13,4 +13,6 @@ package mx.com.MunchEZ.MunchEZ.controller;
 //PersonalController.java PersonalRepository.java DataPersonalRegister.java DataPersonalResponse.java Personal.java Role.java
 //en cada archivo de los que tienes que modificar, te deje un comentario de como hacerlo
 public class PersonalController {
+
+
 }
