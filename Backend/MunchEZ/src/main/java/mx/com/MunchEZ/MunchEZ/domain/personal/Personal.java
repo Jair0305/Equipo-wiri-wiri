@@ -1,11 +1,11 @@
 package mx.com.MunchEZ.MunchEZ.domain.personal;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mx.com.MunchEZ.MunchEZ.domain.product.DataRegisterProduct;
 import mx.com.MunchEZ.MunchEZ.domain.user.User;
 
 @Table(name = "personal")
@@ -26,7 +26,7 @@ public class Personal {
 
     //Relacion 1 a 1 con la tabla users
     //Elimine username y password de la tabla personal y los puse en la tabla users
-    @OneToOne(mappedBy = "personal")
+    @OneToOne(mappedBy = "personal_id")
     private User user;
 
     public Personal(DataPersonalRegister dataPersonalRegister) {
@@ -36,4 +36,6 @@ public class Personal {
         this.phone = dataPersonalRegister.phone();
     }
 
+    public Personal(@NotBlank String username, @NotBlank String password, Long personal_id) {
+    }
 }

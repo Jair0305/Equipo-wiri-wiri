@@ -29,9 +29,6 @@ public class Detail {
     @JoinColumn(name = "det_pro_id", insertable = false, updatable = false)
     private Product product;
 
-    @Column(name = "det_description", nullable = false)
-    private String description;
-
     @Column(name = "det_amount", nullable = false)
     private int amount;
 }

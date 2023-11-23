@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS detail(
      det_ord_id INT NOT NULL,
      det_pro_id INT NOT NULL,
-     det_description VARCHAR(50) NOT NULL,
      det_amount INT NOT NULL,
      PRIMARY KEY (det_ord_id, det_pro_id),
      CONSTRAINT fk_orders_detail
