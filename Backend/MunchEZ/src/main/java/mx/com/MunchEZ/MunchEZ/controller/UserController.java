@@ -1,6 +1,7 @@
 package mx.com.MunchEZ.MunchEZ.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import mx.com.MunchEZ.MunchEZ.domain.personal.Personal;
 import mx.com.MunchEZ.MunchEZ.domain.user.DataRegisterUser;
@@ -23,16 +24,21 @@ public class UserController {
     UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity<DataResponseUser> registerUser(@RequestBody @Valid DataRegisterUser dataRegisterUser, UriComponentsBuilder uriComponentsBuilder)
-    {
-        Personal personal = new Personal(dataRegisterUser.personal_id());
-        User user = userRepository.save(new User(dataRegisterUser));
+    public ResponseEntity<DataResponseUser> registerUser(@RequestBody @Valid DataRegisterUser dataRegisterUser, UriComponentsBuilder uriComponentsBuilder) {
+        Personal personal = new Personal(dataRegisterUser.username(), dataRegisterUser.password(), dataRegisterUser.personal_id());
+
+        User user = new User(dataRegisterUser);
+
+        user.setPersonal_id(personal);
+
+        userRepository.save(user);
 
         DataResponseUser dataResponseUser = new DataResponseUser(user.getId(), user.getUsername(), user.getPersonal_id().getId());
 
         URI url = uriComponentsBuilder.path("/user").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(url).body(dataResponseUser);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<DataResponseUser> getUserById(@PathVariable Long id) {

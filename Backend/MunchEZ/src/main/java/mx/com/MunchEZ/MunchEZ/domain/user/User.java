@@ -2,7 +2,6 @@ package mx.com.MunchEZ.MunchEZ.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
-import mx.com.MunchEZ.MunchEZ.domain.personal.DataPersonalResponse;
 import mx.com.MunchEZ.MunchEZ.domain.personal.Personal;
 
 @Table(name = "users")
@@ -28,6 +27,6 @@ public class User {
         this.username = dataRegisterUser.username();
         this.password = dataRegisterUser.password();
 
-        this.personal_id = new Personal(dataRegisterUser.personal_id());
+        this.personal_id = new Personal(dataRegisterUser.username(), dataRegisterUser.password(), dataRegisterUser.personal_id());
     }
 }

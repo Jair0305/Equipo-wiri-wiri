@@ -29,6 +29,7 @@ public class Order {
     private String name;
     @Enumerated(EnumType.STRING)
     private State state;
+    private String description;
 
     public Order(DataRegisterOrder dataRegisterOrder) {
         this.data = dataRegisterOrder.data();
@@ -37,7 +38,15 @@ public class Order {
         this.num = dataRegisterOrder.num();
         this.name = dataRegisterOrder.name();
         this.state = dataRegisterOrder.state();
+        this.description = dataRegisterOrder.description();
     }
 
+    public void cancelOrder() {
+        this.active = Boolean.FALSE;
+    }
+
+    public void deliveredOrder() {
+        this.state = State.DELIVERED;
+    }
 
 }
