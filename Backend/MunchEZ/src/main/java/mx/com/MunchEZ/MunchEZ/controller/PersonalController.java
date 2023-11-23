@@ -38,13 +38,14 @@ public class PersonalController {
     @Autowired
     private PersonalRepository personalRepository;
 
-
-    @GetMapping
-    public ResponseEntity<Page<DataListPersonal>> listar(@PageableDefault(size = 10, page = 0, sort = {"type"}) Pageable pageable)
-   {
-        var page = ResponseEntity.ok(personalRepository.findAll(pageable).map(DataListPersonal::new));
-        return ResponseEntity.ok(page.getBody());
-    }
+    // Hola, ira aki es donde no supe moverle pipipipi
+    // creo q el error puede venir del DataListPersonal
+//    @GetMapping
+//    public ResponseEntity<Page<DataListPersonal>> listar(@PageableDefault(size = 10, page = 0, sort = {"type"}) Pageable pageable)
+//   {
+//        var page = ResponseEntity.ok(personalRepository.findAll(pageable).map(DataListPersonal::new));
+//        return ResponseEntity.ok(page.getBody());
+//    }
     @GetMapping("/active")
     public List<Personal> getAllPersonalActive() {return personalRepository.findAllByActive(Boolean.TRUE);}
 
