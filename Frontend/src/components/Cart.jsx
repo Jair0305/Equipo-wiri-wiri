@@ -117,6 +117,7 @@ const Cart = forwardRef(function Cart(props, ref) {
       if (response) {
         notify()
         clearForm()
+        console.log(response)
       } else {
         console.error('Failed to send order:', response.statusText)
       }

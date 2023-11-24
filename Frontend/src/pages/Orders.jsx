@@ -19,7 +19,7 @@ const Orders = () => {
   }, [])
 
   return (
-    <div className='mx-auto max-w-screen-xl p-4 overflow-auto'>
+    <div className='mx-auto max-w-screen-xl flex justify-center m-8 h-[calc(100vh-200px)] overflow-y-auto px-8'>
       {orders.length ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
           {orders.map((order) => (
