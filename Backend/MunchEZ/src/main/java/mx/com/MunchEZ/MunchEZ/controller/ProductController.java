@@ -1,6 +1,7 @@
 package mx.com.MunchEZ.MunchEZ.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import mx.com.MunchEZ.MunchEZ.domain.product.*;
@@ -83,4 +84,14 @@ public class ProductController {
         URI url = uriComponentsBuilder.path("/product").buildAndExpand(product.getId()).toUri();
         return ResponseEntity.created(url).body(dataResponseProduct);
     }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<DataResponseProduct> updateProduct(@PathVariable Long productId, @RequestBody @Valid DataUpdateProduct dataUpdateProduct)
+    {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+        product.updateProduct(dataUpdateProduct);
+        DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
+        return ResponseEntity.ok(dataResponseProduct);
+    }
+
 }

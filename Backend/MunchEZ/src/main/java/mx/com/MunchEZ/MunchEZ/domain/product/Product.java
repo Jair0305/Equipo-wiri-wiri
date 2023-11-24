@@ -29,4 +29,19 @@ public class Product {
         this.description = dataRegisterProduct.description();
         this.type = dataRegisterProduct.type();
     }
+
+    public void updateProduct(DataUpdateProduct dataUpdateProduct) {
+        if(dataUpdateProduct.name() != null) {
+            this.name = dataUpdateProduct.name();
+        }
+        if(dataUpdateProduct.price() != 0) {
+            this.price = dataUpdateProduct.price();
+        }
+        if(dataUpdateProduct.description() != null) {
+            this.description = dataUpdateProduct.description();
+        }
+        if(dataUpdateProduct.type() != null) {
+            this.type = dataUpdateProduct.type();
+        }
+    }
 }
