@@ -19,6 +19,7 @@ public class Product {
     private String name;
     private double price;
     private String description;
+    private Boolean active;
     @Enumerated(EnumType.STRING)
     private Type type;
 
@@ -28,6 +29,7 @@ public class Product {
         this.price = dataRegisterProduct.price();
         this.description = dataRegisterProduct.description();
         this.type = dataRegisterProduct.type();
+        this.active = true;
     }
 
     public void updateProduct(DataUpdateProduct dataUpdateProduct) {
@@ -43,5 +45,8 @@ public class Product {
         if(dataUpdateProduct.type() != null) {
             this.type = dataUpdateProduct.type();
         }
+    }
+    public void DisableProduct() {
+        this.active = false;
     }
 }

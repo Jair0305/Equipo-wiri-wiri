@@ -11,6 +11,8 @@ package mx.com.MunchEZ.MunchEZ.controller;
 //solo vas a hacer uso de los archivos que te digo, no tienes que usar mas, de referencia puedes verlo, pero no uses los demas
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import mx.com.MunchEZ.MunchEZ.domain.personal.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +65,24 @@ public class PersonalController {
 
         URI url = uriComponentsBuilder.path("/personal").buildAndExpand(personal.getId()).toUri();
         return ResponseEntity.created(url).body(dataPersonalResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deletePersonal(@PathVariable Long id)
+    {
+        Personal personal = personalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Personal not found with id: " + id));
+        personal.disablePersonal();
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DataPersonalResponse> updatePersonal(@PathVariable Long id, @RequestBody @Valid DataPersonalUpdate dataPersonalUpdate)
+    {
+        Personal personal = personalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Personal not found with id: " + id));
+        personal.updatePersonal(dataPersonalUpdate);
+        DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole(), personal.getPhone());
+        return ResponseEntity.ok(dataPersonalResponse);
     }
 }
