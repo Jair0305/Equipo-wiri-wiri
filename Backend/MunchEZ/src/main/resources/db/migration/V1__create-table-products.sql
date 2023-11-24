@@ -4,5 +4,6 @@ CREATE TABLE products (
     price INT NOT NULL,
     description VARCHAR(200),
     type ENUM('FOOD', 'DRINKS', 'DESSERTS'),
+    active TINYINT DEFAULT 1,
     PRIMARY KEY (id)
 );

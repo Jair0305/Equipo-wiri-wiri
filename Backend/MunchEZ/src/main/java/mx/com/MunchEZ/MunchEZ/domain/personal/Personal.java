@@ -38,4 +38,15 @@ public class Personal {
 
     public Personal(@NotBlank String username, @NotBlank String password, Long personal_id) {
     }
+
+    public void updatePersonal(DataPersonalUpdate dataPersonalUpdate) {
+        this.name = dataPersonalUpdate.name();
+        this.active = dataPersonalUpdate.active();
+        this.role = dataPersonalUpdate.role();
+        this.phone = dataPersonalUpdate.phone();
+    }
+
+    public void disablePersonal() {
+        this.active = false;
+    }
 }

@@ -51,7 +51,6 @@ public class ProductController {
                 case DESSERTS:
                     dessertsList.add(product);
                     break;
-                // Puedes agregar más casos según tus tipos de productos
             }
         }
 
@@ -62,17 +61,17 @@ public class ProductController {
     @GetMapping("/drinks")
     public List<Product> getProdcutsByDrinks()
     {
-        return productRepository.findAllByType(Type.DRINKS);
+        return productRepository.findAllByTypeAndActive(Type.DRINKS, Boolean.TRUE);
     }
     @GetMapping("/food")
     public List<Product> getProductsByFood()
     {
-        return productRepository.findAllByType(Type.FOOD);
+        return productRepository.findAllByTypeAndActive(Type.FOOD, Boolean.TRUE);
     }
     @GetMapping("/desserts")
     public List<Product> getProductsByDesserts()
     {
-        return productRepository.findAllByType(Type.DESSERTS);
+        return productRepository.findAllByTypeAndActive(Type.DESSERTS , Boolean.TRUE);
     }
 
     @PostMapping
@@ -90,6 +89,26 @@ public class ProductController {
     {
         Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
         product.updateProduct(dataUpdateProduct);
+        DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
+        return ResponseEntity.ok(dataResponseProduct);
+    }
+
+    @DeleteMapping("/deletefromcashier/{productId}")
+    @Transactional
+    public ResponseEntity<DataResponseProduct> deleteProductFromCashierDashboard(@PathVariable Long productId)
+    {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+        product.DisableProduct();
+        DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
+        return ResponseEntity.ok(dataResponseProduct);
+    }
+
+    @DeleteMapping("/deletefromDB/{productId}")
+    @Transactional
+    public ResponseEntity<DataResponseProduct> deleteProductFromDataBas(@PathVariable Long productId)
+    {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+        productRepository.delete(product);
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
         return ResponseEntity.ok(dataResponseProduct);
     }
