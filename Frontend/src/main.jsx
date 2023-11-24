@@ -11,6 +11,8 @@ import Desserts from './pages/Desserts'
 import Home from './pages/Home'
 // styles
 import './global.css'
+import Orders from './pages/Orders'
+import LayoutKitchen from './components/LayoutKitchen'
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,6 @@ const router = createBrowserRouter([
       {
         path: '/food',
         element: <Food />,
-        // loader: foodLoader,
         ErrorBoundary: () => <ErrorPage />,
       },
       {
@@ -39,6 +40,22 @@ const router = createBrowserRouter([
         ErrorBoundary: () => <ErrorPage />,
       },
     ],
+  },
+  {
+    path: '/',
+    element: <LayoutKitchen />,
+    children: [
+      {
+        path: '/orders',
+        element: <Orders />,
+        ErrorBoundary: () => <ErrorPage />,
+      },
+    ],
+  },
+  {
+    path: '*',
+    element: <ErrorPage text='404 - Not Found' />,
+    ErrorBoundary: () => <ErrorPage />,
   },
   // {
   //   path: '/admin',
