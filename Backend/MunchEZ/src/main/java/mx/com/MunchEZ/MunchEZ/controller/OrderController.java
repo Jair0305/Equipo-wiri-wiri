@@ -21,6 +21,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,7 +68,7 @@ public class OrderController {
                 detailRepository.save(detail);
             }
         }
-        DataResponseOrder dataResponseOrder = new DataResponseOrder(order.getId(), order.getState(), order.getData(), order.getTotal(), order.getActive(), order.getNum(), order.getName(), order.getDescription());
+        DataResponseOrder dataResponseOrder = new DataResponseOrder(order.getId(), order.getState(), order.getData(), order.getTotal(), order.getActive(), order.getNum(), order.getName(), order.getDescription(), order.getOrdertype());
 
         URI url = uriComponentsBuilder.path("/order/{orderId}").buildAndExpand(order.getId()).toUri();
 
@@ -84,9 +86,8 @@ public class OrderController {
             OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
             orderDetailsDTO.setNum(order.getNum());
             orderDetailsDTO.setName(order.getName());
+            orderDetailsDTO.setOrdertype(order.getOrdertype());
             orderDetailsDTO.setDescription(order.getDescription());
-
-            // Mapea los detalles a DetailDTO y agrega a la lista
             List<DetailDTO> detailDTOList = new ArrayList<>();
             for (Detail detail : orderDetails) {
                 DetailDTO detailDTO = new DetailDTO(
@@ -94,17 +95,14 @@ public class OrderController {
                         detail.getAmount());
                 detailDTOList.add(detailDTO);
             }
-
             orderDetailsDTO.setOrderDetails(detailDTOList);
-
-            // Agrega el DTO a la lista
             orderDetailsDTOList.add(orderDetailsDTO);
         }
-
+        Collections.sort(orderDetailsDTOList, Comparator.comparing(OrderDetailsDTO::getNum));
         return ResponseEntity.ok(orderDetailsDTOList);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/cancelorder/{id}")
     @Transactional
     public ResponseEntity<DataResponseOrder> cancelOrder(@PathVariable Long id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
@@ -112,7 +110,7 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deliveredorder/{id}")
     @Transactional
     public ResponseEntity<DataResponseOrder> deliveredOrder(@PathVariable Long id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));

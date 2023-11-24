@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.com.MunchEZ.MunchEZ.domain.detail.Detail;
+import mx.com.MunchEZ.MunchEZ.domain.order.OrderType;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class OrderDetailsDTO {
     private String num;
     private String name;
     private String description;
+    private OrderType ordertype;
     private List<DetailDTO> orderDetails;
 
     public static class OrderDetailInfoDTO {
