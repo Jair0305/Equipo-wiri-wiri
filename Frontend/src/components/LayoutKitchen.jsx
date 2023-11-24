@@ -3,12 +3,12 @@ import Header from './Header'
 
 const LayoutKitchen = () => {
   return (
-    <div className='h-auto w-full min-w-[420px] m-auto bg-[#EAEAF5]'>
+    <div className='h-auto lg:h-screen w-full min-w-[400px] m-auto bg-[#EAEAF5]'>
       {/* Header */}
       <Header />
-      {/* Orders */}
-      <div className='flex overflow-y-hidden'>
-        <main className='w-full h-full overflow-y-auto'>
+      {/* Products */}
+      <div className='w-full'>
+        <main className='w-full mx-auto px-8'>
           <Outlet />
         </main>
       </div>
