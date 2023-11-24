@@ -22,7 +22,7 @@ const Orders = () => {
   return (
     <>
       {orders.length ? (
-        <div className='flex flex-col m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto '>
+        <div className='flex flex-col m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto'>
           {orders.map((order) => (
             <Order key={order.id} order={order} />
           ))}

@@ -164,7 +164,7 @@ const Cart = forwardRef(function Cart(props, ref) {
           </div>
         </section>
         {/* Products in cart */}
-        <section className='flex flex-col justify-start items-center p-4 overflow-y-auto max-h-[420px] mt-4 pt-2'>
+        <section className='flex flex-col justify-start items-center p-4 overflow-y-auto max-h-[300px] mt-4 pt-2'>
           {productsInCart.length ? (
             productsInCart.map((product) => (
               <ProductInCart key={product.id} product={product} setProductsInCart={setProductsInCart} />
