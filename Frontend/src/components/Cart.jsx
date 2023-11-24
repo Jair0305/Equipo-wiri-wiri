@@ -99,10 +99,11 @@ const Cart = forwardRef(function Cart(props, ref) {
     const orderData = {
       data: formattedDate,
       total: parseFloat(total),
+      ordertype: isTakeout ? 'TAKEOUT' : 'FOR_HERE',
       active: true,
       num: '23', // Puedes generar el número de orden según tu lógica
       name: customerName,
-      state: 'IN PROGRESS',
+      state: 'IN_PROGRESS',
       description: additionalNotes,
       details: orderDetails,
     }
