@@ -93,7 +93,9 @@ public class OrderController {
             for (Detail detail : orderDetails) {
                 DetailDTO detailDTO = new DetailDTO(
                         detail.getProduct().getId(),
-                        detail.getAmount());
+                        detail.getProduct().getName(),
+                        detail.getAmount()
+                );
                 detailDTOList.add(detailDTO);
             }
             orderDetailsDTO.setOrderDetails(detailDTOList);

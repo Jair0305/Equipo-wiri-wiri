@@ -5,12 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class DetailDTO {
-    private Long productId;
-    private String productName;
-    private int det_amount;
+public class ProductDTO {
+    private String name;
 }
