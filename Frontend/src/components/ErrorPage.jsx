@@ -1,6 +1,6 @@
 import { useRouteError } from 'react-router-dom'
 
-const ErrorPage = () => {
+const ErrorPage = ({ text }) => {
   const error = useRouteError()
   return (
     <div className='space-y-8'>
@@ -8,7 +8,7 @@ const ErrorPage = () => {
         MunchEZ<span className='text-orange-300 text-4xl'>.</span>
       </h1>
       <p className='text-center text-2xl font-bold text-blue-900'>Something went wrong</p>
-      <p className='text-center text-xl font-bold text-blue-900'>{error.statusText || error.message}</p>
+      <p className='text-center text-xl font-bold text-blue-900'>{text || error.statusText || error.message}</p>
     </div>
   )
 }
