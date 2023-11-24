@@ -13,7 +13,7 @@ const Header = ({ productsInCart, cartRef }) => {
     kitchen: 'Cocina',
     admin: 'Admin',
   }
-  
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const cartItemCount = productsInCart?.length
   const menuRef = useRef(null)

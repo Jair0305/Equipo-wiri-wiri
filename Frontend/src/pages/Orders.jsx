@@ -5,13 +5,12 @@ import { useState, useEffect } from 'react'
 const Orders = () => {
   const [orders, setOrders] = useState([])
 
-  // Call api
+  // Llamada a la API
   useEffect(() => {
     const fetchOrders = async () => {
       try {
         const ordersFetched = await getOrders()
         setOrders(ordersFetched)
-        console.log(ordersFetched)
       } catch (error) {
         console.error('Error fetching orders:', error)
       }
@@ -20,17 +19,17 @@ const Orders = () => {
   }, [])
 
   return (
-    <>
+    <div className='mx-auto max-w-screen-xl p-4 overflow-auto'>
       {orders.length ? (
-        <div className='flex flex-col m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
           {orders.map((order) => (
             <Order key={order.id} order={order} />
           ))}
         </div>
       ) : (
-        <p className='text-center text-3xl mt-[10%]'>No hay ordenes por hoy.</p>
+        <p className='text-center text-3xl mt-10'>No hay órdenes por hoy.</p>
       )}
-    </>
+    </div>
   )
 }
 
