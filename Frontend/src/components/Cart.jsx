@@ -10,6 +10,7 @@ import { faPaperPlane, faXmark } from '@fortawesome/free-solid-svg-icons'
 //toastify
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { postProduct } from '../api/products'
 
 const Cart = forwardRef(function Cart(props, ref) {
   const { productsInCart, setProductsInCart } = useContext(ProductsInCartContext)
@@ -98,44 +99,30 @@ const Cart = forwardRef(function Cart(props, ref) {
     // Construir el objeto de datos
     const orderData = {
       data: formattedDate,
-      total: parseFloat(total),
+      total: total,
       ordertype: isTakeout ? 'TAKEOUT' : 'FOR_HERE',
       active: true,
       num: '23', // Puedes generar el número de orden según tu lógica
       name: customerName,
-      state: 'IN_PROGRESS',
+      state: 'IN_PROCESS',
       description: additionalNotes,
       details: orderDetails,
     }
 
-    // try {
-    //   // Aquí deberías realizar la llamada a la API para enviar los datos
-    //   // Puedes usar fetch o axios, por ejemplo:
-    //   const response = await fetch('URL_DE_TU_API', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(orderData),
-    //   })
+    try {
+      // Aquí deberías realizar la llamada a la API para enviar los datos
+      // Puedes usar fetch o axios, por ejemplo:
+      const response = await postProduct(orderData)
 
-    //   if (response.ok) {
-    //     console.log('Order sent successfully:', orderData)
-
-    //     // Limpia el formulario después de enviar la orden
-    //     clearForm()
-    //   } else {
-    //     console.error('Failed to send order:', response.status)
-    //     // Puedes manejar el error según tus necesidades
-    //   }
-    // } catch (error) {
-    //   console.error('Error sending order:', error)
-    //   // Puedes manejar el error según tus necesidades
-    // }
-
-    console.log('Order sent successfully:', orderData)
-    notify()
-    clearForm()
+      if (response) {
+        notify()
+        clearForm()
+      } else {
+        console.error('Failed to send order:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error sending order:', error)
+    }
   }
 
   useEffect(() => {
