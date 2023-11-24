@@ -8,10 +8,15 @@ const Orders = () => {
   // Call api
   useEffect(() => {
     const fetchOrders = async () => {
-      const ordersFetched = await getOrders()
-      setOrders(ordersFetched)
+      try {
+        const ordersFetched = await getOrders()
+        setOrders(ordersFetched)
+        console.log(ordersFetched)
+      } catch (error) {
+        console.error('Error fetching orders:', error)
+      }
     }
-    fetchOrders().catch(console.error)
+    fetchOrders()
   }, [])
 
   return (
@@ -19,7 +24,7 @@ const Orders = () => {
       {orders.length ? (
         <div className='flex flex-col m-8 m-[0 auto] h-[calc(100vh-280px)] overflow-y-auto '>
           {orders.map((order) => (
-            <Order key={order?.id} orders={order} />
+            <Order key={order.id} order={order} />
           ))}
         </div>
       ) : (
