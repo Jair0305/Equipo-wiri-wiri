@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS orders(
      active TINYINT UNSIGNED NOT NULL,
      total DECIMAL(10, 2) NOT NULL,
      description VARCHAR(500),
+     ordertype ENUM('TAKEOUT','FOR_HERE') NOT NULL,
      PRIMARY KEY (id)
 );

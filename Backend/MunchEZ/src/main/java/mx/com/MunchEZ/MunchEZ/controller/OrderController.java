@@ -68,7 +68,7 @@ public class OrderController {
                 detailRepository.save(detail);
             }
         }
-        DataResponseOrder dataResponseOrder = new DataResponseOrder(order.getId(), order.getState(), order.getData(), order.getTotal(), order.getActive(), order.getNum(), order.getName(), order.getDescription());
+        DataResponseOrder dataResponseOrder = new DataResponseOrder(order.getId(), order.getState(), order.getData(), order.getTotal(), order.getActive(), order.getNum(), order.getName(), order.getDescription(), order.getOrdertype());
 
         URI url = uriComponentsBuilder.path("/order/{orderId}").buildAndExpand(order.getId()).toUri();
 
@@ -86,6 +86,7 @@ public class OrderController {
             OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
             orderDetailsDTO.setNum(order.getNum());
             orderDetailsDTO.setName(order.getName());
+            orderDetailsDTO.setOrdertype(order.getOrdertype());
             orderDetailsDTO.setDescription(order.getDescription());
             List<DetailDTO> detailDTOList = new ArrayList<>();
             for (Detail detail : orderDetails) {

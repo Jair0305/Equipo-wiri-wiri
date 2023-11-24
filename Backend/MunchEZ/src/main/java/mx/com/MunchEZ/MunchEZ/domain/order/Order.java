@@ -30,6 +30,8 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private State state;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private OrderType ordertype;
 
     public Order(DataRegisterOrder dataRegisterOrder) {
         this.data = dataRegisterOrder.data();
@@ -39,6 +41,7 @@ public class Order {
         this.name = dataRegisterOrder.name();
         this.state = dataRegisterOrder.state();
         this.description = dataRegisterOrder.description();
+        this.ordertype = dataRegisterOrder.ordertype();
     }
 
     public void cancelOrder() {
