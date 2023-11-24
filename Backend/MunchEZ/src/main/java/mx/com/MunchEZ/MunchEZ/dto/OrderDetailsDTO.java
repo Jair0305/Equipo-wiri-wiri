@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderDetailsDTO {
+    private Long id;
     private String num;
     private String name;
     private String description;

@@ -84,6 +84,7 @@ public class OrderController {
         for (Order order : orders) {
             List<Detail> orderDetails = detailRepository.findAllByOrder(order);
             OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+            orderDetailsDTO.setId(order.getId());
             orderDetailsDTO.setNum(order.getNum());
             orderDetailsDTO.setName(order.getName());
             orderDetailsDTO.setOrdertype(order.getOrdertype());
