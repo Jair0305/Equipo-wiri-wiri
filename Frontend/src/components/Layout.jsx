@@ -10,7 +10,7 @@ import { ProductsInCartContext } from '../Helpers/Context'
 // api calls
 import { getProducts } from '../api/products'
 // Toastify
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Layout = () => {
