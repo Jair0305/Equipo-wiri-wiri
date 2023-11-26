@@ -1,7 +1,9 @@
 package mx.com.MunchEZ.MunchEZ.domain.personal;
 
-public record DataListPersonal(Long id, String name, Boolean active, Role role, String phone) {
+import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
+
+public record DataListPersonal(Long id, String name, Boolean active, String role, String phone) {
     public DataListPersonal(Personal personal) {
-        this(personal.getId(), personal.getName(), personal.getActive(), personal.getRole(), personal.getPhone());
+        this(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getName(), personal.getPhone());
     }
 }

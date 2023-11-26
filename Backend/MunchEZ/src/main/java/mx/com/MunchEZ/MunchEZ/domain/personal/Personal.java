@@ -6,7 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
+import mx.com.MunchEZ.MunchEZ.domain.Role.RoleRepository;
 import mx.com.MunchEZ.MunchEZ.domain.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Table(name = "personal")
 @Entity(name = "Personal")
@@ -20,29 +23,28 @@ public class Personal {
     private Long id;
     private String name;
     private Boolean active;
-    @Enumerated(EnumType.STRING)
-    private Role role;
     private String phone;
 
-    //Relacion 1 a 1 con la tabla users
-    //Elimine username y password de la tabla personal y los puse en la tabla users
-    @OneToOne(mappedBy = "personal_id")
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public Personal(DataPersonalRegister dataPersonalRegister) {
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    public Personal(DataPersonalRegister dataPersonalRegister, RoleRepository roleRepository) {
         this.name = dataPersonalRegister.name();
         this.active = dataPersonalRegister.active();
-        this.role = dataPersonalRegister.role();
+        this.role = roleRepository.findById(dataPersonalRegister.roleId()).orElseThrow();
         this.phone = dataPersonalRegister.phone();
     }
 
-    public Personal(@NotBlank String username, @NotBlank String password, Long personal_id) {
-    }
-
-    public void updatePersonal(DataPersonalUpdate dataPersonalUpdate) {
+    public void updatePersonal(DataPersonalUpdate dataPersonalUpdate, RoleRepository roleRepository) {
         this.name = dataPersonalUpdate.name();
         this.active = dataPersonalUpdate.active();
-        this.role = dataPersonalUpdate.role();
+        this.role = roleRepository.findById(dataPersonalUpdate.roleId()).orElseThrow();
         this.phone = dataPersonalUpdate.phone();
     }
 

@@ -1,4 +1,6 @@
 package mx.com.MunchEZ.MunchEZ.domain.personal;
 
-public record DataPersonalUpdate(String name, Boolean active, Role role, String phone) {
+import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
+
+public record DataPersonalUpdate(String name, Boolean active, int roleId, String phone) {
 }

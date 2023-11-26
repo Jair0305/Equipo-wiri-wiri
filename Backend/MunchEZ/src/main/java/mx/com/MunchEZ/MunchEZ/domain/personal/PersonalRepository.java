@@ -1,6 +1,7 @@
 package mx.com.MunchEZ.MunchEZ.domain.personal;
 
 
+import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
