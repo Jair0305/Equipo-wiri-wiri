@@ -6,5 +6,7 @@ package mx.com.MunchEZ.MunchEZ.domain.personal;
 //con sus respectivos tipos de datos
 
 
-public record DataPersonalResponse (Long id, String name, Boolean active, Role role, String phone){
+import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
+
+public record DataPersonalResponse (Long id, String name, Boolean active, Long roleId, String phone){
 }

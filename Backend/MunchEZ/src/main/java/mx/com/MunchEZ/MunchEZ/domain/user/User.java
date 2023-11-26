@@ -2,22 +2,19 @@ package mx.com.MunchEZ.MunchEZ.domain.user;
 
 import jakarta.persistence.*;
 import lombok.*;
-import mx.com.MunchEZ.MunchEZ.domain.personal.Personal;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 @Table(name = "users")
-@Entity(name = "User")
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class User implements UserDetails {
+@Data
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,33 +22,8 @@ public class User implements UserDetails {
     private String username;
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "personal_id")
-    private Personal personal;
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + personal.getRole().name()));
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> role = new ArrayList<>();
 }

@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
+import mx.com.MunchEZ.MunchEZ.domain.Role.RoleRepository;
 import mx.com.MunchEZ.MunchEZ.domain.personal.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,8 +25,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.xml.crypto.Data;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //PersonalController.java PersonalRepository.java DataPersonalRegister.java DataPersonalResponse.java Personal.java Role.java
 //en cada archivo de los que tienes que modificar, te deje un comentario de como hacerlo
@@ -37,31 +41,98 @@ public class PersonalController {
     @Autowired
     private PersonalRepository personalRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     // Hola, ira aki es donde no supe moverle pipipipi
     // creo q el error puede venir del DataListPersonal
-    @GetMapping
-    public ResponseEntity<Page<DataListPersonal>> listar(@PageableDefault(size = 10, page = 0, sort = {"role"}) Pageable pageable)
-    {
-        var page = ResponseEntity.ok(personalRepository.findAll(pageable).map(DataListPersonal::new));
-        return ResponseEntity.ok(page.getBody());
-    }
     @GetMapping("/active")
-    public List<Personal> getAllPersonalActive() {return personalRepository.findAllByActive(Boolean.TRUE);}
+    public ResponseEntity<List<DataListPersonal>> getByActiveTrue() {
+        List<DataListPersonal> dataList = personalRepository.findAllByActive(true)
+                .stream()
+                .map(personal -> new DataListPersonal(
+                        personal.getId(),
+                        personal.getName(),
+                        personal.getActive(),
+                        personal.getRole().getName(),
+                        personal.getPhone()
+                ))
+                .collect(Collectors.toList());
 
+        return ResponseEntity.ok(dataList);
+    }
+    @GetMapping
+    public ResponseEntity<List<DataListPersonal>> getAllPersonal() {
+        List<DataListPersonal> dataList = personalRepository.findAll()
+                .stream()
+                .map(personal -> new DataListPersonal(
+                        personal.getId(),
+                        personal.getName(),
+                        personal.getActive(),
+                        personal.getRole().getName(),  // Obtener el nombre del rol
+                        personal.getPhone()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dataList);
+    }
     @GetMapping("/admin")
-    public List<Personal> getAllPersonalAdmin() {return personalRepository.findPersonalByRole(Role.ADMIN);}
+    public ResponseEntity<List<DataListPersonal>> getAllAdmin() {
+        Role adminRole = roleRepository.findByName("ADMIN").orElseThrow(); // Asegúrate de manejar el caso en que no se encuentra el rol
+        List<DataListPersonal> dataList = personalRepository.findPersonalByRole(adminRole)
+                .stream()
+                .map(personal -> new DataListPersonal(
+                        personal.getId(),
+                        personal.getName(),
+                        personal.getActive(),
+                        adminRole.getName(),  // Obtener el nombre del rol
+                        personal.getPhone()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dataList);
+    }
 
     @GetMapping("/kitchen")
-    public List<Personal> getAllPersonalKitchen() {return personalRepository.findPersonalByRole(Role.KITCHEN);}
+    public ResponseEntity<List<DataListPersonal>> getAllKitchen() {
+        Role kitchenRole = roleRepository.findByName("KITCHEN").orElseThrow(); // Asegúrate de manejar el caso en que no se encuentra el rol
+        List<DataListPersonal> dataList = personalRepository.findPersonalByRole(kitchenRole)
+                .stream()
+                .map(personal -> new DataListPersonal(
+                        personal.getId(),
+                        personal.getName(),
+                        personal.getActive(),
+                        kitchenRole.getName(),  // Obtener el nombre del rol
+                        personal.getPhone()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dataList);
+    }
 
     @GetMapping("/cashier")
-    public List<Personal> getAllPersonalCashier() {return personalRepository.findPersonalByRole(Role.CASHIER);}
+    public ResponseEntity<List<DataListPersonal>> getAllCashier() {
+        Role cashierRole = roleRepository.findByName("CASHIER").orElseThrow(); // Asegúrate de manejar el caso en que no se encuentra el rol
+        List<DataListPersonal> dataList = personalRepository.findPersonalByRole(cashierRole)
+                .stream()
+                .map(personal -> new DataListPersonal(
+                        personal.getId(),
+                        personal.getName(),
+                        personal.getActive(),
+                        cashierRole.getName(),  // Obtener el nombre del rol
+                        personal.getPhone()
+                ))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dataList);
+    }
 
     @PostMapping
     public ResponseEntity<DataPersonalResponse> registerPersonal(@RequestBody @Valid DataPersonalRegister dataPersonalRegister, UriComponentsBuilder uriComponentsBuilder)
     {
-        Personal personal = personalRepository.save(new Personal(dataPersonalRegister));
-        DataPersonalResponse dataPersonalResponse = new  DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole(), personal.getPhone());
+        Personal personal = new Personal(dataPersonalRegister, roleRepository);
+        personal = personalRepository.save(personal);
+        DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getId(), personal.getPhone());
 
         URI url = uriComponentsBuilder.path("/personal").buildAndExpand(personal.getId()).toUri();
         return ResponseEntity.created(url).body(dataPersonalResponse);
@@ -81,8 +152,8 @@ public class PersonalController {
     public ResponseEntity<DataPersonalResponse> updatePersonal(@PathVariable Long id, @RequestBody @Valid DataPersonalUpdate dataPersonalUpdate)
     {
         Personal personal = personalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Personal not found with id: " + id));
-        personal.updatePersonal(dataPersonalUpdate);
-        DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole(), personal.getPhone());
+        personal.updatePersonal(dataPersonalUpdate, roleRepository);
+        DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getId(), personal.getPhone());
         return ResponseEntity.ok(dataPersonalResponse);
     }
 }
