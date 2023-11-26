@@ -1,6 +1,6 @@
 import { forwardRef, useContext, useEffect, useState } from 'react'
 //helpers
-import { ProductsInCartContext } from '../Helpers/Context'
+import { OrdersContext, ProductsInCartContext } from '../Helpers/Context'
 // components
 import ProductInCart from './ProductInCart'
 // icons FontAwesome
@@ -11,9 +11,26 @@ import { faPaperPlane, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { postProduct } from '../api/products'
+import { getOrders } from '../api/orders'
 
 const Cart = forwardRef(function Cart(props, ref) {
+  const { orders, setOrders } = useContext(OrdersContext)
+
+  const fetchOrders = async () => {
+    try {
+      const ordersFetched = await getOrders()
+      setOrders(ordersFetched)
+    } catch (error) {
+      console.error('Error fetching orders:', error)
+    }
+  }
+
   const { productsInCart, setProductsInCart } = useContext(ProductsInCartContext)
+
+  const [orderNumber, setOrderNumber] = useState(() => {
+    const savedOrderNumber = localStorage.getItem('orderNumber')
+    return savedOrderNumber ? parseInt(savedOrderNumber, 10) : 1
+  })
 
   const [customerName, setCustomerName] = useState('')
   const [isTakeout, setIsTakeout] = useState(false)
@@ -90,6 +107,9 @@ const Cart = forwardRef(function Cart(props, ref) {
     const currentDate = new Date()
     const formattedDate = currentDate.toISOString()
 
+    // calc total
+    const calculatedTotal = calculateTotal()
+
     // Construir la lista de detalles
     const orderDetails = productsInCart.map((product) => ({
       det_pro_id: product.id,
@@ -99,10 +119,10 @@ const Cart = forwardRef(function Cart(props, ref) {
     // Construir el objeto de datos
     const orderData = {
       data: formattedDate,
-      total: total,
+      total: calculatedTotal,
       ordertype: isTakeout ? 'TAKEOUT' : 'FOR_HERE',
       active: true,
-      num: '23', // Puedes generar el número de orden según tu lógica
+      num: orderNumber.toString(),
       name: customerName,
       state: 'IN_PROCESS',
       description: additionalNotes,
@@ -110,14 +130,13 @@ const Cart = forwardRef(function Cart(props, ref) {
     }
 
     try {
-      // Aquí deberías realizar la llamada a la API para enviar los datos
-      // Puedes usar fetch o axios, por ejemplo:
+      console.log(orderData)
       const response = await postProduct(orderData)
-
       if (response) {
         notify()
         clearForm()
-        console.log(response)
+        fetchOrders()
+        setOrderNumber(orderNumber + 1)
       } else {
         console.error('Failed to send order:', response.statusText)
       }
@@ -125,22 +144,31 @@ const Cart = forwardRef(function Cart(props, ref) {
       console.error('Error sending order:', error)
     }
   }
+  useEffect(() => {
+    // Set orderNumber in localStorage every time it changes
+    localStorage.setItem('orderNumber', orderNumber.toString())
+  }, [orderNumber])
 
   useEffect(() => {
-    const updatedTotal = calculateTotal()
-    setTotal(updatedTotal)
-  }, [productsInCart])
+    const lastOrderDate = localStorage.getItem('lastOrderDate')
+    const today = new Date().toLocaleDateString()
+
+    if (lastOrderDate !== today) {
+      setOrderNumber(1)
+      localStorage.setItem('lastOrderDate', today)
+    }
+  }, [orderNumber, productsInCart])
 
   return (
     <aside
       ref={ref}
-      className={`py-8 lg px-6 lg:px-0 lg:py-0 w-full lg:mt-10 h-full right-0 block bg-[#F7F6FF] z-10 lg:relative lg:w-2/5 xl:mr-[5%] xl:1/5 2xl:mr-[10%]`}>
+      className={`py-8 px-6 lg:px-0 lg:mr-6 lg:py-0 w-full lg:mt-10 h-full right-0 block bg-[#F7F6FF] z-10 lg:relative lg:w-2/5 xl:mr-[5%] xl:1/5 2xl:mr-[10%]`}>
       <form onSubmit={handleSubmit} className='bg-[#F7F6FF] border-[1px] border-[#ABA7A7] p-5 rounded-md'>
         {/* Order Summary */}
         <section className='flex justify-start items-center gap-4'>
           {/* Order */}
           <div className='bg-[#F3C623] w-[60px] h-[60px] flex justify-center items-center font-bold text-xl rounded-[50%]'>
-            12
+            {orderNumber}
           </div>
           <div className='flex justify-between text-xl'>
             <h3 htmlFor='customerName' className='text-[24px] xl:text-[30px]'>
@@ -198,7 +226,7 @@ const Cart = forwardRef(function Cart(props, ref) {
             className='w-full min-h-[120px] max-h-[120px] rounded-3xl px-4 py-2  resize-none text-lg'
             maxLength={250}
             value={additionalNotes}
-            onChange={(e) => setAdditionalNotes(e.target.value)}></textarea>
+            onChange={handleAdditionalNotesChange}></textarea>
         </section>
         {/* Button to Send order | Clear form  */}
         <section className='w-full flex justify-evenly mt-8'>

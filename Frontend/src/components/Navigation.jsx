@@ -10,17 +10,17 @@ const Navigation = () => {
       <ul className='w-full p-4 flex justify-evenly gap-4 sm:gap-12 sm:justify-center'>
         <NavLink
           className='transition-all font-bold text-xl border-[2px] border-transparent text-[#ABA7A7] hover:text-[#2D2D2D] hover:border-t-[#F3C623]'
-          to='/food'>
+          to='/cashier/food'>
           Comida
         </NavLink>
         <NavLink
           className='transition-all font-bold text-xl border-[2px] border-transparent text-[#ABA7A7] hover:text-[#2D2D2D] hover:border-t-[#F3C623]'
-          to='/drinks'>
+          to='/cashier/drinks'>
           Bebidas
         </NavLink>
         <NavLink
           className='transition-all font-bold text-xl border-[2px] border-transparent text-[#ABA7A7] hover:text-[#2D2D2D] hover:border-t-[#F3C623]'
-          to='/desserts'>
+          to='/cashier/desserts'>
           Postres
         </NavLink>
       </ul>

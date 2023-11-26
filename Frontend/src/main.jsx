@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // components
@@ -13,42 +13,75 @@ import Home from './pages/Home'
 import './global.css'
 import Orders from './pages/Orders'
 import LayoutKitchen from './components/LayoutKitchen'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminLayout from './components/AdminLayout'
+import Login from './pages/Login'
+import { getOrders } from './api/orders'
+
+export const fetchOrders = async () => {
+  try {
+    const ordersFetched = await getOrders()
+    return ordersFetched
+  } catch (error) {
+    console.error('Error fetching orders:', error)
+  }
+}
 
 const router = createBrowserRouter([
+  // ----------LOGIN-------------
   {
-    path: '/',
+    path: '/login',
+    element: <Login />,
+    ErrorBoundary: () => <ErrorPage />,
+  },
+  // ----------CASHIER-------------
+  {
+    path: '/cashier',
     element: <Layout />,
     children: [
       {
+        path: '/cashier',
         index: true,
         element: <Home />,
         ErrorBoundary: () => <ErrorPage />,
       },
       {
-        path: '/food',
+        path: '/cashier/food',
         element: <Food />,
         ErrorBoundary: () => <ErrorPage />,
       },
       {
-        path: '/drinks',
+        path: '/cashier/drinks',
         element: <Drinks />,
         ErrorBoundary: () => <ErrorPage />,
       },
       {
-        path: '/desserts',
+        path: '/cashier/desserts',
         element: <Desserts />,
         ErrorBoundary: () => <ErrorPage />,
       },
     ],
   },
+  // ----------KITCHEN-------------
   {
-    path: '/',
+    path: '/kitchen',
     element: <LayoutKitchen />,
     children: [
       {
-        path: '/orders',
+        path: '/kitchen',
         element: <Orders />,
         ErrorBoundary: () => <ErrorPage />,
+      },
+    ],
+  },
+  // ----------ADMIN-------------
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        path: '/admin/dashboard',
+        element: <AdminDashboard />,
       },
     ],
   },
@@ -57,24 +90,6 @@ const router = createBrowserRouter([
     element: <ErrorPage text='404 - Not Found' />,
     ErrorBoundary: () => <ErrorPage />,
   },
-  // {
-  //   path: '/admin',
-  //   element: <Admin />,
-  //   children: [
-  //     {
-  //       path: '/',
-  //       element: <AdminDashboard />,
-  //     },
-  //     {
-  //       path: '/users',
-  //       element: <AdminUsers />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '/kitchen',
-  //   element: <Kitchen />,
-  // },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

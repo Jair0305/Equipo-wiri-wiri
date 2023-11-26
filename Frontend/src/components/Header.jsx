@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import munchEZLogo from '../assets/logos/MuncEZ-dark.svg'
 import SvgUserMenu from './SvgUserMenu'
 import { useState, useEffect, useRef } from 'react'
@@ -6,7 +7,7 @@ import { faGear } from '@fortawesome/free-solid-svg-icons'
 import CartFlotantButton from './CartFlotantButton'
 
 const Header = ({ productsInCart, cartRef }) => {
-  const [user, setUser] = useState('cashier')
+  const [user, setUser] = useState('admin')
 
   const userDisplay = {
     cashier: 'Cajero',
@@ -87,6 +88,11 @@ const Header = ({ productsInCart, cartRef }) => {
       </div>
     </header>
   )
+}
+
+Header.propTypes = {
+  productsInCart: PropTypes.array,
+  cartRef: PropTypes.object,
 }
 
 export default Header

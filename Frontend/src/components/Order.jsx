@@ -4,9 +4,8 @@ import { faTimes, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 
-const Order = ({ order }) => {
-  const { description, name, num, orderDetails, ordertype } = order
-  console.log(order)
+const Order = ({ order, fetchOrders }) => {
+  const { id, description, name, num, orderDetails, ordertype } = order
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [confirmationType, setConfirmationType] = useState(null)
 
@@ -30,11 +29,22 @@ const Order = ({ order }) => {
     DELETE_ORDER: '¿Estás seguro de eliminar esta orden?',
   }
 
+  const markOrderAsReady = async () => {
+    // Implement logic to mark order as ready
+    await fetch(`http://localhost:8080/order/deliveredorder/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    await fetchOrders()
+  }
+
   const confirmAction = () => {
     // Implement logic based on the confirmation type
     if (confirmationType === 'MARK_AS_READY') {
       // Handle marking as ready
-      console.log('Order marked as ready')
+      markOrderAsReady()
     } else if (confirmationType === 'DELETE_ORDER') {
       // Handle order deletion
       console.log('Order deleted')
@@ -45,59 +55,57 @@ const Order = ({ order }) => {
   }
 
   return (
-    <div className='w-full max-h-[700px] flex-col justify-center items-center gap-4 border-[1px] bg-white border-[#ABA7A7] rounded-3xl p-4'>
-      <section className='flex justify-start items-center gap-4'>
+    <div className='w-full max-w-md mx-auto border-[1px] bg-white border-[#ABA7A7] rounded-3xl p-4'>
+      <section className='flex flex-col items-center gap-4'>
         <div className='bg-[#F3C623] w-[80px] h-[80px] flex justify-center items-center font-bold text-xl rounded-[50%]'>
           {num}
         </div>
-        <div className='flex flex-col'>
+        <div className='text-center'>
           <p className='text-[24px]'>
             Orden de <span className='font-bold'>{name}</span>
           </p>
-          <p className={`${ordertype === 'TAKEOUT' ? 'text-[#D8315B]' : 'text-[#F3C623]'}  text-[22px]`}>
+          <p className={`${ordertype === 'TAKEOUT' ? 'text-[#D8315B]' : 'text-[#F3C623]'} text-[22px]`}>
             {getOrderType[ordertype]}
           </p>
         </div>
       </section>
 
-      <section>
-        <div className='flex flex-col justify-start items-start p-4 overflow-y-auto min-h-[200px] max-h-[200px] mt-4 pt-2'>
-          {orderDetails.map((product, index) => (
-            <div
-              key={`${product.id}-${index}`}
-              className='flex justify-between items-center w-full border-b-[1px] border-[#ABA7A7] px-2 py-2 mt-2'>
-              <p className='text-xl font-bold'>{product.productName}</p>
-              <p className='text-xl font-bold'>x{product.det_amount}</p>
-            </div>
-          ))}
-        </div>
+      <section className='p-4 overflow-y-auto min-h-[200px] max-h-[200px]'>
+        {orderDetails.map((product, index) => (
+          <div
+            key={`${product.id}-${index}`}
+            className='flex justify-between items-center w-full border-b-[1px] border-[#ABA7A7] px-2 py-2 mt-2'>
+            <p className='text-lg font-bold'>{product.productName}</p>
+            <p className='text-xl font-bold opacity-60'>x{product.det_amount}</p>
+          </div>
+        ))}
       </section>
 
-      <section className='flex flex-col justify-center items-start mt-8 p-4 '>
-        <p className='px-4 text-xl'>Notas Adicionales:</p>
-        <div className='flex justify-between mt-4 w-full rounded-3xl border-[#ABA7A7] border-[1px]'>
+      <section className='p-4'>
+        <p className='text-xl'>Notas Adicionales:</p>
+        <div className='mt-4 rounded-3xl border-[#ABA7A7] border-[1px]'>
           <textarea
             name='additional-notes'
             id='additionalNotes'
-            className='w-full rounded-3xl px-4 py-2 resize-none h-[100px] text-lg font-bold'
-            value={description}
+            className={`w-full rounded-3xl px-4 py-2 resize-none h-[100px] text-lg ${
+              description === '' ? 'font-bold italic opacity-40 select-none' : 'font-bold'
+            }`}
+            value={description === '' ? 'Sin notas adicionales' : description}
             disabled></textarea>
         </div>
       </section>
 
-      <section>
-        <div className='flex justify-evenly items-center w-full mt-8'>
-          <button
-            className='w-[80px] h-[80px] border-[4px] border-[#3F9F7F] rounded-3xl text-[#3F9F7F] font-bold text-xl'
-            onClick={() => handleOpenModal('MARK_AS_READY')}>
-            <FontAwesomeIcon icon={faCheck} className='h-[40px]' />
-          </button>
-          <button
-            className='w-[80px] h-[80px] border-[4px] border-[#D8315B] rounded-3xl text-[#D8315B] font-bold text-xl'
-            onClick={() => handleOpenModal('DELETE_ORDER')}>
-            <FontAwesomeIcon icon={faXmark} className='h-[40px]' />
-          </button>
-        </div>
+      <section className='flex justify-evenly items-center mt-4'>
+        <button
+          className='w-[80px] h-[80px] border-[4px] border-[#3F9F7F] rounded-3xl text-[#3F9F7F] font-bold text-xl'
+          onClick={() => handleOpenModal('MARK_AS_READY')}>
+          <FontAwesomeIcon icon={faCheck} className='h-[40px]' />
+        </button>
+        <button
+          className='w-[80px] h-[80px] border-[4px] border-[#D8315B] rounded-3xl text-[#D8315B] font-bold text-xl'
+          onClick={() => handleOpenModal('DELETE_ORDER')}>
+          <FontAwesomeIcon icon={faXmark} className='h-[40px]' />
+        </button>
       </section>
 
       {isModalOpen && (
@@ -124,6 +132,7 @@ const Order = ({ order }) => {
 
 Order.propTypes = {
   order: PropTypes.object.isRequired,
+  fetchOrders: PropTypes.func.isRequired,
 }
 
 export default Order

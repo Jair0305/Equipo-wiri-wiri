@@ -55,9 +55,9 @@ const Product = ({ food, productsInCart, setProductsInCart }) => {
           <button
             disabled={isProductInCart}
             className={`shadow-md transition-all p-2 cursor-pointer rounded-[50%] flex justify-center items-center
-            text-${isAddedToCart ? 'white' : '[#F3C623]'}
-            bg-${isAddedToCart ? 'green-500' : 'white'}
-            ${isProductInCart ? 'pointer-events-none opacity-50' : 'hover:bg-[#F3C623] hover:text-white'}
+              text-${isAddedToCart ? 'white' : '[#F3C623]'}
+              ${isAddedToCart ? 'bg-green-600' : 'bg-white'}
+              ${isProductInCart ? 'cursor-not-allowed opacity-50' : 'hover:bg-[#F3C623] hover:text-white'}
             `}
             onClick={handleAddToCartClick}>
             <FontAwesomeIcon className='h-[1.5rem] w-[1.5rem]' icon={isAddedToCart ? faCheck : faPlus} />
