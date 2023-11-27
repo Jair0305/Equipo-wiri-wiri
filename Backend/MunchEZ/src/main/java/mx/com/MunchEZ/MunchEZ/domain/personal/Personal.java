@@ -1,15 +1,13 @@
 package mx.com.MunchEZ.MunchEZ.domain.personal;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
 import mx.com.MunchEZ.MunchEZ.domain.Role.RoleRepository;
-import mx.com.MunchEZ.MunchEZ.domain.user.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import mx.com.MunchEZ.MunchEZ.domain.user.UserEntity;
 
 @Table(name = "personal")
 @Entity(name = "Personal")
@@ -28,7 +26,7 @@ public class Personal {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
