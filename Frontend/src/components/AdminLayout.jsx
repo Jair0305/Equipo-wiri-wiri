@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
+import Navigation from './Navigation'
 
 const AdminLayout = () => {
   return (
@@ -8,7 +9,8 @@ const AdminLayout = () => {
       <Header />
       {/* Products */}
       <div className='w-full'>
-        <main className='w-full mx-auto px-8'>
+        <main className='w-full mx-0 px-8'>
+          <Navigation />
           <Outlet />
         </main>
       </div>
