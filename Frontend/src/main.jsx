@@ -1,21 +1,25 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // components
 import Layout from './components/Layout'
+import LayoutKitchen from './components/LayoutKitchen'
+import AdminLayout from './components/AdminLayout'
 import ErrorPage from './components/ErrorPage'
 // pages
+import Login from './pages/Login'
 import Drinks from './pages/Drinks'
 import Food from './pages/Food'
 import Desserts from './pages/Desserts'
 import Home from './pages/Home'
+import Orders from './pages/Orders'
+import AdminDashboard from './pages/AdminDashboard'
+import EmployeesAdmin from './pages/Employees'
+import ProductsAdmin from './pages/ProductsAdmin'
+import OrdersAdmin from './pages/OrdersAdmin'
 // styles
 import './global.css'
-import Orders from './pages/Orders'
-import LayoutKitchen from './components/LayoutKitchen'
-import AdminDashboard from './pages/AdminDashboard'
-import AdminLayout from './components/AdminLayout'
-import Login from './pages/Login'
+// api
 import { getOrders } from './api/orders'
 
 export const fetchOrders = async () => {
@@ -76,12 +80,29 @@ const router = createBrowserRouter([
   },
   // ----------ADMIN-------------
   {
-    path: '/admin',
+    path: '/admin/dashboard',
     element: <AdminLayout />,
     children: [
       {
+        index: true,
         path: '/admin/dashboard',
         element: <AdminDashboard />,
+        ErrorBoundary: () => <ErrorPage />,
+      },
+      {
+        path: '/admin/dashboard/employees',
+        element: <EmployeesAdmin />,
+        ErrorBoundary: () => <ErrorPage />,
+      },
+      {
+        path: '/admin/dashboard/products',
+        element: <ProductsAdmin />,
+        ErrorBoundary: () => <ErrorPage />,
+      },
+      {
+        path: '/admin/dashboard/orders',
+        element: <OrdersAdmin />,
+        ErrorBoundary: () => <ErrorPage />,
       },
     ],
   },
