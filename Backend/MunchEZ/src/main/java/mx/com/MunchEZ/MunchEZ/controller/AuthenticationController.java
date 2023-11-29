@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -58,7 +62,7 @@ public class AuthenticationController {
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
         Role role = roleRepository.findByName(registerDTO.getRole()).orElseThrow(() -> new RuntimeException("Error: Role is not found"));
-        user.setRole(Collections.singleton(role));
+        user.setAuthorities(Collections.singleton(role));
 
         userRepository.save(user);
 
@@ -67,10 +71,39 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+
+        if (loginDTO == null || loginDTO.getUser() == null ||
+                loginDTO.getUser().getUsername() == null ||
+                loginDTO.getUser().getPassword() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUser().getUsername(), loginDTO.getUser().getPassword(), loginDTO.getUser().getAuthorities()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         String token = jwtGenerator.generateToken(authentication);
 
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        List<String> roles = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        UserEntity user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Error: User not found"));
+
+        user.setAuthorities(roles.stream()
+                .map(roleName -> roleRepository.findByName(roleName)
+                        .orElseThrow(() -> new RuntimeException("Error: Role not found")))
+                .collect(Collectors.toSet()));
+
+        AuthResponseDTO responseDTO = new AuthResponseDTO(user, token);
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+
+
+
+
 }
