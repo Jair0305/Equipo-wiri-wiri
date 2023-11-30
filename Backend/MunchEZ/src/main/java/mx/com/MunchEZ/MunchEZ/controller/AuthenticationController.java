@@ -11,6 +11,7 @@ import mx.com.MunchEZ.MunchEZ.dto.LoginDTO;
 import mx.com.MunchEZ.MunchEZ.dto.RegisterDTO;
 import mx.com.MunchEZ.MunchEZ.infra.security.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -100,7 +101,7 @@ public class AuthenticationController {
 
         AuthResponseDTO responseDTO = new AuthResponseDTO(user, token);
 
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(responseDTO);
     }
 
 

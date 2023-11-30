@@ -38,17 +38,6 @@ public class OrderController {
     @Autowired
     ProductRepository productRepository;
 
-//----------------------This code is for register Orders Withouth Details, is not util for this aplication, but is a reference----------------------
-//    @PostMapping
-//    public ResponseEntity<DataResponseOrder> registerOrder(@RequestBody @Valid DataRegisterOrder dataRegisterOrder, UriComponentsBuilder uriComponentsBuilder)
-//    {
-//        Order order = orderRepository.save(new Order(dataRegisterOrder));
-//        DataResponseOrder dataResponseOrder = new DataResponseOrder(order.getId(), order.getState(), order.getData(), order.getTotal(), order.getActive(), order.getNum(), order.getName());
-//
-//        URI url = uriComponentsBuilder.path("/order").buildAndExpand(order.getId()).toUri();
-//        return ResponseEntity.created(url).body(dataResponseOrder);
-//    }
-
     @PostMapping
     public ResponseEntity<DataResponseOrder> registerOrderWithDetails(@RequestBody @Valid DataRegisterOrder dataRegisterOrder, UriComponentsBuilder uriComponentsBuilder) {
         Order order = orderRepository.save(new Order(dataRegisterOrder));
@@ -103,6 +92,27 @@ public class OrderController {
         }
         Collections.sort(orderDetailsDTOList, Comparator.comparing(OrderDetailsDTO::getNum));
         return ResponseEntity.ok(orderDetailsDTOList);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<DataResponseOrder>> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+
+        List<DataResponseOrder> dataResponseOrderList = new ArrayList<>();
+
+        for (Order order : orders) {
+            DataResponseOrder dataResponseOrder = new DataResponseOrder(order.getId(), order.getState(), order.getData(), order.getTotal(), order.getActive(), order.getNum(), order.getName(), order.getDescription(), order.getOrdertype());
+            dataResponseOrderList.add(dataResponseOrder);
+        }
+        return ResponseEntity.ok(dataResponseOrderList);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DataResponseOrder> deleteOrder(@PathVariable Long id){
+        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
+        orderRepository.delete(order);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/cancelorder/{id}")
