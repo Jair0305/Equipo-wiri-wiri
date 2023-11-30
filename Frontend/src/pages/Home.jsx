@@ -6,6 +6,7 @@ const Home = () => {
           <li key={product.id}>{product.name}</li>
         ))}
       </ul> */}
+      Home
     </div>
   )
 }
