@@ -73,7 +73,6 @@ public class PersonalController {
                         personal.getPhone()
                 ))
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(dataList);
     }
     @GetMapping("/admin")

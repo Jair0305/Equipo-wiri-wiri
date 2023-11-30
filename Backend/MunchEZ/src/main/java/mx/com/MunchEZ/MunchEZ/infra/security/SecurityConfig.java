@@ -32,7 +32,10 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authRequest ->
                         authRequest
-                                .requestMatchers("/**").permitAll()
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/kitchen/**").hasRole("KITCHEN")
+                                .requestMatchers("/cashier/**").hasRole("CASHIER")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                         )
                 .formLogin(Customizer.withDefaults());

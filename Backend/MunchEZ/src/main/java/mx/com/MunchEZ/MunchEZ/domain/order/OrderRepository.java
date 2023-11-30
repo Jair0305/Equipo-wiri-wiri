@@ -19,4 +19,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByName(String name);
 
     List<Order> findAllByStateAndActive(State state, Boolean active);
+
 }
