@@ -46,6 +46,9 @@ public class Product {
             this.type = dataUpdateProduct.type();
         }
     }
+    public void activateProduct() {
+        this.active = true;
+    }
     public void DisableProduct() {
         this.active = false;
     }

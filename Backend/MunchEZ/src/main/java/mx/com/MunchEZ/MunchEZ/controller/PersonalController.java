@@ -156,4 +156,5 @@ public class PersonalController {
         DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getId(), personal.getPhone());
         return ResponseEntity.ok(dataPersonalResponse);
     }
+
 }
