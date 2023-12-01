@@ -131,6 +131,12 @@ public class OrderController {
         return ResponseEntity.ok("Pedidos eliminados para la fecha: " + date);
     }
 
+    @DeleteMapping("/deleteone/{id}")
+    public ResponseEntity<String> deleteOrderById(@PathVariable Long id) {
+        orderRepository.deleteById(id);
+        return ResponseEntity.ok("Pedido eliminado con id: " + id);
+    }
+
     @DeleteMapping("/cancelorder/{id}")
     @Transactional
     public ResponseEntity<DataResponseOrder> cancelOrder(@PathVariable Long id) {
