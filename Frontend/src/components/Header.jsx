@@ -3,7 +3,7 @@ import munchEZLogo from '../assets/logos/MuncEZ-dark.svg'
 import SvgUserMenu from './SvgUserMenu'
 import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons'
 import CartFlotantButton from './CartFlotantButton'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Helpers/useAuth'
@@ -11,6 +11,12 @@ import { useAuth } from '../Helpers/useAuth'
 const Header = ({ productsInCart, cartRef }) => {
   const navigate = useNavigate()
   const { logout, role } = useAuth()
+
+  const displayRole = {
+    ADMIN: 'Administrador',
+    CASHIER: 'Cajero',
+    CHEF: 'Cocina',
+  }
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const cartItemCount = productsInCart?.length
@@ -57,9 +63,19 @@ const Header = ({ productsInCart, cartRef }) => {
 
       <div className='lg:py-4 lg:px-8 w-full lg:w-2/4 flex flex-col lg:flex-row  items-center gap-2 sm:gap-4' ref={menuRef}>
         <div className='flex items-center justify-between lg:justify-end gap-2 lg:gap-8 w-full px-6'>
-          <h1 className='text-[#F3C623] font-bold text-sm lg:text-base xl:text-lg 2xl:text-xl text-center'>
-            Dashboard <span>{role}</span>
-          </h1>
+          <div className='font-bold text-base lg:text-xl xl:text-2xl  text-center'>
+            <h1 className='text-center text-[#F3C623]'>
+              Dashboard{' '}
+              <span className='text-[#c0c0c0]'>
+                {displayRole[role]} <span className='text-[40px] text-[#F3C623]'>.</span>
+              </span>
+            </h1>
+          </div>
+          {/* <div className=''>
+            <h1 className='text-center text-3xl font-extrabold text-blue-900'>
+              CRM - Clients<span className='text-orange-300 text-4xl'>.</span>
+            </h1>
+          </div> */}
           <div className='flex justify-center items-center gap-2 lg:gap-8'>
             {role === 'CASHIER' && <CartFlotantButton cartItemCount={cartItemCount} cartRef={cartRef} />}
             <div
@@ -80,11 +96,12 @@ const Header = ({ productsInCart, cartRef }) => {
               }}
             />
             <div
-              className={`z-20 transition-all absolute p-4 w-full lg:w-[200px] bg-[#2b2a2a] mx-4 ${
+              className={`z-20 transition-all absolute py-4 w-full lg:w-[250px] bg-[#2b2a2a] hover:hover:bg-[#3f3f3f] mx-4 rounded-lg ${
                 isMenuOpen ? 'opacity-1 pointer-events-auto top-[25%] lg:top-[15%] lg:right-0' : 'opacity-0 pointer-events-none'
               }`}>
-              <button className='w-full text-white' onClick={handleLogout}>
-                Logout
+              <button className='w-full flex justify-center items-center gap-2 text-white text-xl ' onClick={handleLogout}>
+                <FontAwesomeIcon icon={faArrowRightFromBracket} className='h-[20px]' />
+                Cerrar Sesion
               </button>
             </div>
           </>

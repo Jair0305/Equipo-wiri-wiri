@@ -10,7 +10,7 @@ import { faPaperPlane, faXmark } from '@fortawesome/free-solid-svg-icons'
 //toastify
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { postProduct } from '../api/products'
+import { postOrder } from '../api/products'
 import { getOrders } from '../api/orders'
 
 const Cart = forwardRef(function Cart(props, ref) {
@@ -131,7 +131,7 @@ const Cart = forwardRef(function Cart(props, ref) {
 
     try {
       console.log(orderData)
-      const response = await postProduct(orderData)
+      const response = await postOrder(orderData)
       if (response) {
         notify()
         clearForm()
