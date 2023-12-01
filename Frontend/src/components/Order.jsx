@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 
@@ -29,6 +29,17 @@ const Order = ({ order, fetchOrders }) => {
     DELETE_ORDER: '¿Estás seguro de eliminar esta orden?',
   }
 
+  const cancelOrder = async () => {
+    // Implement logic to cancel order
+    await fetch(`http://localhost:8080/order/cancelorder/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    await fetchOrders()
+  }
+
   const markOrderAsReady = async () => {
     // Implement logic to mark order as ready
     await fetch(`http://localhost:8080/order/deliveredorder/${id}`, {
@@ -47,7 +58,7 @@ const Order = ({ order, fetchOrders }) => {
       markOrderAsReady()
     } else if (confirmationType === 'DELETE_ORDER') {
       // Handle order deletion
-      console.log('Order deleted')
+      cancelOrder()
     }
 
     // Close the modal
@@ -104,7 +115,7 @@ const Order = ({ order, fetchOrders }) => {
         <button
           className='w-[80px] h-[80px] border-[4px] border-[#D8315B] rounded-3xl text-[#D8315B] font-bold text-xl'
           onClick={() => handleOpenModal('DELETE_ORDER')}>
-          <FontAwesomeIcon icon={faXmark} className='h-[40px]' />
+          <FontAwesomeIcon icon={faTrash} className='h-[30px]' />
         </button>
       </section>
 

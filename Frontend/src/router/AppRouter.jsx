@@ -1,10 +1,9 @@
 import { useLocation, Navigate, Route, Routes } from 'react-router-dom'
-
+import PropTypes from 'prop-types'
 // components
 import Layout from '../components/Layout'
 import LayoutKitchen from '../components/LayoutKitchen'
 import AdminLayout from '../components/AdminLayout'
-import ErrorPage from '../components/ErrorPage'
 // pages
 import Login from '../pages/Login'
 import Drinks from '../pages/Drinks'
@@ -17,10 +16,10 @@ import EmployeesAdmin from '../pages/Employees'
 import ProductsAdmin from '../pages/ProductsAdmin'
 import OrdersAdmin from '../pages/OrdersAdmin'
 import { useAuth } from '../Helpers/useAuth'
+import AdminModal from '../components/CreateProductAdminModal'
 
 const PrivateRoute = ({ element, roles }) => {
   const { isLoggedIn, role } = useAuth()
-  const location = useLocation()
 
   if (!isLoggedIn) {
     return <Navigate to='/login' />
@@ -60,13 +59,18 @@ const AppRouter = () => {
       </Route>
       <Route path='/admin' element={<PrivateRoute element={<AdminLayout />} roles={['ADMIN']} />}>
         <Route index path='dashboard' element={<AdminDashboard />} />
-        <Route path='employees' element={<EmployeesAdmin />} />
-        <Route path='products' element={<ProductsAdmin />} />
-        <Route path='orders' element={<OrdersAdmin />} />
+        <Route path='dashboard/employees' element={<EmployeesAdmin />} />
+        <Route path='dashboard/products' element={<ProductsAdmin />} />
+        <Route path='dashboard/orders' element={<OrdersAdmin />} />
       </Route>
-      <Route path='*' element={<p>Error 404</p>} />
+      <Route path='*' element={<AdminModal />} />
     </Routes>
   )
 }
 
 export default AppRouter
+
+PrivateRoute.propTypes = {
+  element: PropTypes.element.isRequired,
+  roles: PropTypes.arrayOf(PropTypes.string),
+}

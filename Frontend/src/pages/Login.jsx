@@ -57,6 +57,7 @@ const Login = () => {
       if (!response.ok) {
         throw new Error('Error en la autenticación')
       }
+
       clearErrors()
       const data = await response.json()
 
