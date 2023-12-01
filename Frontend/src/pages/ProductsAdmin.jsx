@@ -32,7 +32,7 @@ const ProductsAdmin = () => {
         <CreateProductAdminModal fetchProducts={fetchProducts} />
       </div>
       <section className='h-[calc(100vh-400px)] overflow-auto'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-8 px-8 overflow-y-auto w-full'>
+        <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-8 px-8 overflow-y-auto w-full pt-4 border-t-2 border-[#dfdcdc]'>
           {filteredProducts.length ? (
             filteredProducts.map((product) => (
               <div
