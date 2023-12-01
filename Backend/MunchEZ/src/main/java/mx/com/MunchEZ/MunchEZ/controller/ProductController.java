@@ -113,5 +113,15 @@ public class ProductController {
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
         return ResponseEntity.ok(dataResponseProduct);
     }
+    //Activate product
+    @PostMapping("/{id}")
+    @Transactional
+    public ResponseEntity<DataResponseProduct> activateProduct(@PathVariable Long id)
+    {
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+        product.activateProduct();
+        DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
+        return ResponseEntity.ok(dataResponseProduct);
+    }
 
 }

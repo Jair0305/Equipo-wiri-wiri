@@ -14,12 +14,18 @@ import mx.com.MunchEZ.MunchEZ.domain.product.ProductRepository;
 import mx.com.MunchEZ.MunchEZ.dto.DetailDTO;
 import mx.com.MunchEZ.MunchEZ.dto.OrderDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.xml.crypto.Data;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -113,6 +119,16 @@ public class OrderController {
         Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
         orderRepository.delete(order);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/deleteperday/{date}")
+    public ResponseEntity<String> deleteOrdersForDate(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+
+        orderRepository.deleteByDataBetween(startOfDay, endOfDay);
+
+        return ResponseEntity.ok("Pedidos eliminados para la fecha: " + date);
     }
 
     @DeleteMapping("/cancelorder/{id}")
