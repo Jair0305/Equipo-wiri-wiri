@@ -156,7 +156,7 @@ const EditProductAdminModal = ({ fetchProducts, product }) => {
               </div>
             </div>
             <section className='flex justify-center items-center gap-4'>
-              <Button color='blue' type='submit'>
+              <Button color='dark' type='submit'>
                 Confirmar cambios
               </Button>
               <Button color='gray' onClick={closeModal} className='hover:bg-black'>

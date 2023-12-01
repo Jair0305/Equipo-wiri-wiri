@@ -15,7 +15,7 @@ const Header = ({ productsInCart, cartRef }) => {
   const displayRole = {
     ADMIN: 'Administrador',
     CASHIER: 'Cajero',
-    CHEF: 'Cocina',
+    KITCHEN: 'Cocina',
   }
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
