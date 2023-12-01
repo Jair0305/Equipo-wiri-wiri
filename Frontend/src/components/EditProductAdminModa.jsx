@@ -26,7 +26,7 @@ const EditProductAdminModal = ({ fetchProducts, product }) => {
   }
 
   useEffect(() => {
-    // Restablecer los valores del formulario cuando cambia el producto
+    // restore form data when product changes 
     setNewName(name)
     setNewPrice(price)
     setNewCategory(type)
