@@ -32,6 +32,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authRequest ->
                         authRequest
+                                .requestMatchers("/**").permitAll()
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/kitchen/**").hasRole("KITCHEN")
                                 .requestMatchers("/cashier/**").hasRole("CASHIER")

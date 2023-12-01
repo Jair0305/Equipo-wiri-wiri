@@ -152,6 +152,7 @@ public class PersonalController {
     {
         Personal personal = personalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Personal not found with id: " + id));
         personal.updatePersonal(dataPersonalUpdate, roleRepository);
+        personalRepository.save(personal);
         DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getId(), personal.getPhone());
         return ResponseEntity.ok(dataPersonalResponse);
     }
