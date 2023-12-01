@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { getProducts } from '../api/products'
 import ProductSearch from '../components/ProductSearch'
 import foodImg from '../assets/images/food.jpg'
+import drinkImg from '../assets/images/drink.jpg'
+import dessertImg from '../assets/images/dessert.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import CreateProductAdminModal from '../components/CreateProductAdminModal'
@@ -39,7 +41,7 @@ const ProductsAdmin = () => {
                 key={product.id}
                 className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-8 xl:grid-cols-7 md:gap-2 p-4 justify-center items-center shadow-xl rounded-lg bg-[#F7F6FF] mb-8'>
                 <img
-                  src={foodImg}
+                  src={product.type === 'FOOD' ? foodImg : product.type === 'DRINKS' ? drinkImg : dessertImg}
                   alt={product.name}
                   className=' md:col-span-3 xl:col-span-2 h-auto object-cover mb-4 lg:pr-1 lg:mb-0 rounded-lg'
                 />

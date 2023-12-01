@@ -18,7 +18,7 @@ const CreateProductAdminModal = ({ fetchProducts }) => {
   const customTheme = {
     button: {
       color: {
-        primary: 'transition-all bg-[#F3C623] active:bg-[#F3C623] hover:bg-[#ddb00f] text-[#424242] hover:text-[#000]  font-bold',
+        primary: 'transition-all bg-[#F3C623] active:bg-[#F3C623] hover:bg-[#ddb00f] text-[#424242] hover:text-[#000] ',
       },
     },
   }
@@ -76,7 +76,7 @@ const CreateProductAdminModal = ({ fetchProducts }) => {
         </Button>
 
         <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-          <Modal.Header>Crear Nuevo Producto</Modal.Header>
+          <Modal.Header className='font-bold'>Crear Nuevo Producto</Modal.Header>
           <Modal.Body>
             {error && (
               <div className='m-4 p-4 bg-red-700'>
