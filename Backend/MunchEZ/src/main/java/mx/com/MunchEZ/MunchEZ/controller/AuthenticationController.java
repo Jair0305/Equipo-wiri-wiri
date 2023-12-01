@@ -103,8 +103,4 @@ public class AuthenticationController {
 
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(responseDTO);
     }
-
-
-
-
 }

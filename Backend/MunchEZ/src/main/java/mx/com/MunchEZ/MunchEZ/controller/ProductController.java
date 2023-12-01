@@ -84,14 +84,15 @@ public class ProductController {
         return ResponseEntity.created(url).body(dataResponseProduct);
     }
 
-    @PutMapping("/{productId}")
-    public ResponseEntity<DataResponseProduct> updateProduct(@PathVariable Long productId, @RequestBody @Valid DataUpdateProduct dataUpdateProduct)
-    {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+    @PutMapping("/{id}")
+    public ResponseEntity<DataResponseProduct> updateProduct(@PathVariable Long id, @RequestBody @Valid DataUpdateProduct dataUpdateProduct) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
         product.updateProduct(dataUpdateProduct);
+        productRepository.save(product);
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
         return ResponseEntity.ok(dataResponseProduct);
     }
+
 
     @DeleteMapping("/deletefromcashier/{productId}")
     @Transactional
