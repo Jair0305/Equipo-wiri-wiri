@@ -8,7 +8,7 @@ import CartFlotantButton from './CartFlotantButton'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Helpers/useAuth'
 
-const Header = ({ productsInCart, cartRef }) => {
+const Header = ({ productsInCart, cartRef, error }) => {
   const navigate = useNavigate()
   const { logout, role } = useAuth()
 
