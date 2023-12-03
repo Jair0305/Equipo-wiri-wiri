@@ -34,7 +34,7 @@ public class ProductController {
 
     @GetMapping("/all")
     public ResponseEntity<DataProductByTypeResponse> getAllProductsByType() {
-        List<Product> allProducts = productRepository.findAll();
+        List<Product> allProducts = productRepository.findAllByActive(Boolean.TRUE);
 
         List<Product> foodList = new ArrayList<>();
         List<Product> drinksList = new ArrayList<>();
@@ -94,7 +94,7 @@ public class ProductController {
     }
 
 
-    @DeleteMapping("/deletefromcashier/{productId}")
+    @DeleteMapping("/disable/{productId}")
     @Transactional
     public ResponseEntity<DataResponseProduct> deleteProductFromCashierDashboard(@PathVariable Long productId)
     {
@@ -104,7 +104,7 @@ public class ProductController {
         return ResponseEntity.ok(dataResponseProduct);
     }
 
-    @DeleteMapping("/deletefromDB/{productId}")
+    @DeleteMapping("/delete/{productId}")
     @Transactional
     public ResponseEntity<DataResponseProduct> deleteProductFromDataBas(@PathVariable Long productId)
     {
@@ -120,6 +120,7 @@ public class ProductController {
     {
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
         product.activateProduct();
+        productRepository.save(product);
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
         return ResponseEntity.ok(dataResponseProduct);
     }

@@ -31,4 +31,7 @@ public class Detail {
 
     @Column(name = "det_amount", nullable = false)
     private int amount;
+
+    @Column(name = "price", nullable = false)
+    private double price;
 }

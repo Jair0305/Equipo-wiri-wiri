@@ -14,4 +14,5 @@ public class DetailDTO {
     private String productName;
     private double productPrice;
     private int det_amount;
+    private double price;
 }
