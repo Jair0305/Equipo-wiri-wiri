@@ -17,6 +17,7 @@ import ProductsAdmin from '../pages/ProductsAdmin'
 import OrdersAdmin from '../pages/OrdersAdmin'
 import { useAuth } from '../Helpers/useAuth'
 import AdminModal from '../components/CreateProductAdminModal'
+import ErrorPage from '../components/ErrorPage'
 
 const PrivateRoute = ({ element, roles }) => {
   const { isLoggedIn, role } = useAuth()
@@ -63,7 +64,7 @@ const AppRouter = () => {
         <Route path='dashboard/products' element={<ProductsAdmin />} />
         <Route path='dashboard/orders' element={<OrdersAdmin />} />
       </Route>
-      <Route path='*' element={<AdminModal />} />
+      <Route path='*' element={<ErrorPage />} />
     </Routes>
   )
 }
