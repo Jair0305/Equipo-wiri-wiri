@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import mx.com.MunchEZ.MunchEZ.domain.product.*;
+import mx.com.MunchEZ.MunchEZ.infra.error.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -86,7 +87,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DataResponseProduct> updateProduct(@PathVariable Long id, @RequestBody @Valid DataUpdateProduct dataUpdateProduct) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+        Product product = productRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Product not found with id: " + id));
         product.updateProduct(dataUpdateProduct);
         productRepository.save(product);
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
@@ -98,7 +99,7 @@ public class ProductController {
     @Transactional
     public ResponseEntity<DataResponseProduct> deleteProductFromCashierDashboard(@PathVariable Long productId)
     {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IntegrityValidation("Product not found with id: " + productId));
         product.DisableProduct();
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
         return ResponseEntity.ok(dataResponseProduct);
@@ -108,7 +109,7 @@ public class ProductController {
     @Transactional
     public ResponseEntity<DataResponseProduct> deleteProductFromDataBas(@PathVariable Long productId)
     {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new IntegrityValidation("Product not found with id: " + productId));
         productRepository.delete(product);
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
         return ResponseEntity.ok(dataResponseProduct);
@@ -118,7 +119,7 @@ public class ProductController {
     @Transactional
     public ResponseEntity<DataResponseProduct> activateProduct(@PathVariable Long id)
     {
-        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+        Product product = productRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Product not found with id: " + id));
         product.activateProduct();
         productRepository.save(product);
         DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());

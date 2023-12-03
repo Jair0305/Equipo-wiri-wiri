@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import mx.com.MunchEZ.MunchEZ.domain.Role.Role;
 import mx.com.MunchEZ.MunchEZ.domain.Role.RoleRepository;
 import mx.com.MunchEZ.MunchEZ.domain.personal.*;
+import mx.com.MunchEZ.MunchEZ.infra.error.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,9 +44,6 @@ public class PersonalController {
 
     @Autowired
     private RoleRepository roleRepository;
-
-    // Hola, ira aki es donde no supe moverle pipipipi
-    // creo q el error puede venir del DataListPersonal
     @GetMapping("/active")
     public ResponseEntity<List<DataListPersonal>> getByActiveTrue() {
         List<DataListPersonal> dataList = personalRepository.findAllByActive(true)
@@ -69,7 +67,7 @@ public class PersonalController {
                         personal.getId(),
                         personal.getName(),
                         personal.getActive(),
-                        personal.getRole().getName(),  // Obtener el nombre del rol
+                        personal.getRole().getName(),
                         personal.getPhone()
                 ))
                 .collect(Collectors.toList());
@@ -77,14 +75,14 @@ public class PersonalController {
     }
     @GetMapping("/admin")
     public ResponseEntity<List<DataListPersonal>> getAllAdmin() {
-        Role adminRole = roleRepository.findByName("ADMIN").orElseThrow(); // Asegúrate de manejar el caso en que no se encuentra el rol
+        Role adminRole = roleRepository.findByName("ADMIN").orElseThrow();
         List<DataListPersonal> dataList = personalRepository.findPersonalByRole(adminRole)
                 .stream()
                 .map(personal -> new DataListPersonal(
                         personal.getId(),
                         personal.getName(),
                         personal.getActive(),
-                        adminRole.getName(),  // Obtener el nombre del rol
+                        adminRole.getName(),
                         personal.getPhone()
                 ))
                 .collect(Collectors.toList());
@@ -94,14 +92,14 @@ public class PersonalController {
 
     @GetMapping("/kitchen")
     public ResponseEntity<List<DataListPersonal>> getAllKitchen() {
-        Role kitchenRole = roleRepository.findByName("KITCHEN").orElseThrow(); // Asegúrate de manejar el caso en que no se encuentra el rol
+        Role kitchenRole = roleRepository.findByName("KITCHEN").orElseThrow();
         List<DataListPersonal> dataList = personalRepository.findPersonalByRole(kitchenRole)
                 .stream()
                 .map(personal -> new DataListPersonal(
                         personal.getId(),
                         personal.getName(),
                         personal.getActive(),
-                        kitchenRole.getName(),  // Obtener el nombre del rol
+                        kitchenRole.getName(),
                         personal.getPhone()
                 ))
                 .collect(Collectors.toList());
@@ -111,14 +109,14 @@ public class PersonalController {
 
     @GetMapping("/cashier")
     public ResponseEntity<List<DataListPersonal>> getAllCashier() {
-        Role cashierRole = roleRepository.findByName("CASHIER").orElseThrow(); // Asegúrate de manejar el caso en que no se encuentra el rol
+        Role cashierRole = roleRepository.findByName("CASHIER").orElseThrow();
         List<DataListPersonal> dataList = personalRepository.findPersonalByRole(cashierRole)
                 .stream()
                 .map(personal -> new DataListPersonal(
                         personal.getId(),
                         personal.getName(),
                         personal.getActive(),
-                        cashierRole.getName(),  // Obtener el nombre del rol
+                        cashierRole.getName(),
                         personal.getPhone()
                 ))
                 .collect(Collectors.toList());
@@ -141,7 +139,7 @@ public class PersonalController {
     @Transactional
     public ResponseEntity<?> deletePersonal(@PathVariable Long id)
     {
-        Personal personal = personalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Personal not found with id: " + id));
+        Personal personal = personalRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Personal not found with id: " + id));
         personal.disablePersonal();
         return ResponseEntity.ok().build();
     }
@@ -150,7 +148,7 @@ public class PersonalController {
     @Transactional
     public ResponseEntity<DataPersonalResponse> updatePersonal(@PathVariable Long id, @RequestBody @Valid DataPersonalUpdate dataPersonalUpdate)
     {
-        Personal personal = personalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Personal not found with id: " + id));
+        Personal personal = personalRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Personal not found with id: " + id));
         personal.updatePersonal(dataPersonalUpdate, roleRepository);
         personalRepository.save(personal);
         DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getId(), personal.getPhone());

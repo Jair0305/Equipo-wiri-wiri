@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS detail(
              REFERENCES products(id)
              ON DELETE NO ACTION
              ON UPDATE NO ACTION
-);
+);z
