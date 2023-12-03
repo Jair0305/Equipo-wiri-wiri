@@ -10,5 +10,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByTypeAndActive(Type type, Boolean active);
+
+    List<Product> findAllByActive(Boolean active);
     List<Product> findById(long id);
 }

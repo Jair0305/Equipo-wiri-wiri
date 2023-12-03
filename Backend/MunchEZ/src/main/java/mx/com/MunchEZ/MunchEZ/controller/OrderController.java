@@ -59,6 +59,7 @@ public class OrderController {
                 detail.setOrder(order);
                 detail.setProduct(product);
                 detail.setAmount(dataRegisterDetail.det_amount());
+                detail.setPrice(product.getPrice());
 
                 detailRepository.save(detail);
             }
@@ -91,7 +92,8 @@ public class OrderController {
                         detail.getProduct().getId(),
                         detail.getProduct().getName(),
                         detail.getProduct().getPrice(),
-                        detail.getAmount()
+                        detail.getAmount(),
+                        detail.getPrice()
                 );
                 detailDTOList.add(detailDTO);
             }
@@ -127,7 +129,8 @@ public class OrderController {
                         detail.getProduct().getId(),
                         detail.getProduct().getName(),
                         detail.getProduct().getPrice(),
-                        detail.getAmount()
+                        detail.getAmount(),
+                        detail.getPrice()
                 );
                 detailDTOList.add(detailDTO);
             }
