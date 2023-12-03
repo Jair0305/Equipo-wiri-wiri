@@ -25,9 +25,9 @@ const ProductSearch = ({ products, onSearch }) => {
           placeholder='Buscar producto...'
           value={searchTerm}
           onChange={handleSearch}
-          className='w-full border rounded-md py-2 pl-8 pr-4 transition-all focus:outline-none focus:border-[#F3C623] focus:ring focus:ring-[#F3C623] focus:ring-opacity-50'
+          className='w-full border rounded-md py-2 pl-8 pr-4 transition-all border-[#ccc] focus:outline-none focus:border-[#F3C623] focus:ring focus:ring-[#F3C623] focus:ring-opacity-50'
         />
-        <FontAwesomeIcon icon={faSearch} className='absolute left-2 top-3 text-gray-500' />
+        <FontAwesomeIcon icon={faSearch} className='absolute left-2 top-3 text-gray-500 pointer-events-none' />
       </div>
     </nav>
   )

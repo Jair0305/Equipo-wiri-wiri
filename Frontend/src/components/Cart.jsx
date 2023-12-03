@@ -105,8 +105,8 @@ const Cart = forwardRef(function Cart(props, ref) {
 
     // Obtener la fecha y hora actual en el formato deseado
     const currentDate = new Date()
-    const formattedDate = currentDate.toISOString()
-
+    // const formattedDate = currentDate.toISOString()
+    const formattedDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toISOString()
     // calc total
     const calculatedTotal = calculateTotal()
 
@@ -130,7 +130,6 @@ const Cart = forwardRef(function Cart(props, ref) {
     }
 
     try {
-      console.log(orderData)
       const response = await postOrder(orderData)
       if (response) {
         notify()
