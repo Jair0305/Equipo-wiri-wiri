@@ -30,7 +30,10 @@ const ProductsAdmin = () => {
   return (
     <div className='flex flex-col'>
       <ProductSearch products={allProducts} onSearch={handleSearch} />
-      <div className='flex justify-center lg:justify-end lg:pr-10 pb-8 bg-[#EAEAF5]'>
+      <div className='flex flex-col-reverse gap-4 items-center md:flex-row md:justify-between lg:pr-10 lg:pl-10 pb-8 bg-[#EAEAF5]'>
+        <h1 className='text-3xl font-bold'>
+          Productos <span className='text-xl text-[#6e6e6e] pl-2'>{filteredProducts.length} resultados</span>
+        </h1>
         <CreateProductAdminModal fetchProducts={fetchProducts} />
       </div>
       <section className='h-[calc(100vh-400px)] overflow-auto'>
@@ -39,7 +42,7 @@ const ProductsAdmin = () => {
             filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-8 xl:grid-cols-7 md:gap-2 p-4 justify-center items-center shadow-xl rounded-lg bg-[#F7F6FF] mb-8'>
+                className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-8 xl:grid-cols-7 md:gap-2 p-4 justify-center items-center shadow-xl rounded-lg bg-[#F7F6FF] mb-8 hover:scale-[1.01] transition-all'>
                 <img
                   src={product.type === 'FOOD' ? foodImg : product.type === 'DRINKS' ? drinkImg : dessertImg}
                   alt={product.name}

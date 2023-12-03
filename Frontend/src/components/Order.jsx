@@ -94,7 +94,7 @@ const Order = ({ order, fetchOrders }) => {
 
       <section className='p-4'>
         <p className='text-xl'>Notas Adicionales:</p>
-        <div className='mt-4 rounded-3xl border-[#ABA7A7] border-[1px]'>
+        <div className='mt-4 '>
           <textarea
             name='additional-notes'
             id='additionalNotes'
@@ -120,7 +120,7 @@ const Order = ({ order, fetchOrders }) => {
       </section>
 
       {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10'>
           <div className='bg-white p-8 rounded-lg'>
             <p className='text-xl font-bold mb-4'>{confirmationMessages[confirmationType]}</p>
             <div className='flex justify-evenly'>
