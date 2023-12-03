@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.com.MunchEZ.MunchEZ.domain.detail.Detail;
 import mx.com.MunchEZ.MunchEZ.domain.order.OrderType;
+import mx.com.MunchEZ.MunchEZ.domain.order.State;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,9 +18,13 @@ import java.util.List;
 public class OrderDetailsDTO {
     private Long id;
     private String num;
+    private LocalDateTime data;
+    private Boolean active;
+    private State state;
     private String name;
     private String description;
     private OrderType ordertype;
+    private double total;
     private List<DetailDTO> orderDetails;
 
     public static class OrderDetailInfoDTO {

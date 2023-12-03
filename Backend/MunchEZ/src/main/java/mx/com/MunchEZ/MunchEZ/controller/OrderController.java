@@ -78,7 +78,8 @@ public class OrderController {
 
         for (Order order : orders) {
             List<Detail> orderDetails = detailRepository.findAllByOrder(order);
-            OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+            OrderDetailsDTO orderDetailsDTO;
+            orderDetailsDTO = new OrderDetailsDTO();
             orderDetailsDTO.setId(order.getId());
             orderDetailsDTO.setNum(order.getNum());
             orderDetailsDTO.setName(order.getName());
@@ -89,6 +90,7 @@ public class OrderController {
                 DetailDTO detailDTO = new DetailDTO(
                         detail.getProduct().getId(),
                         detail.getProduct().getName(),
+                        detail.getProduct().getPrice(),
                         detail.getAmount()
                 );
                 detailDTOList.add(detailDTO);
@@ -101,17 +103,43 @@ public class OrderController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DataResponseOrder>> getAllOrders() {
+    public ResponseEntity<List<OrderDetailsDTO>> getAllOrdersWithDetails() {
         List<Order> orders = orderRepository.findAll();
 
-        List<DataResponseOrder> dataResponseOrderList = new ArrayList<>();
+        List<OrderDetailsDTO> orderDetailsDTOList = new ArrayList<>();
 
         for (Order order : orders) {
-            DataResponseOrder dataResponseOrder = new DataResponseOrder(order.getId(), order.getState(), order.getData(), order.getTotal(), order.getActive(), order.getNum(), order.getName(), order.getDescription(), order.getOrdertype());
-            dataResponseOrderList.add(dataResponseOrder);
+            List<Detail> orderDetails = detailRepository.findAllByOrder(order);
+            OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+            orderDetailsDTO.setId(order.getId());
+            orderDetailsDTO.setNum(order.getNum());
+            orderDetailsDTO.setName(order.getName());
+            orderDetailsDTO.setState(order.getState());
+            orderDetailsDTO.setActive(order.getActive());
+            orderDetailsDTO.setOrdertype(order.getOrdertype());
+            orderDetailsDTO.setDescription(order.getDescription());
+            orderDetailsDTO.setOrdertype(order.getOrdertype());
+            orderDetailsDTO.setTotal(order.getTotal());
+            orderDetailsDTO.setData(order.getData());
+            List<DetailDTO> detailDTOList = new ArrayList<>();
+            for (Detail detail : orderDetails) {
+                DetailDTO detailDTO = new DetailDTO(
+                        detail.getProduct().getId(),
+                        detail.getProduct().getName(),
+                        detail.getProduct().getPrice(),
+                        detail.getAmount()
+                );
+                detailDTOList.add(detailDTO);
+            }
+            orderDetailsDTO.setOrderDetails(detailDTOList);
+            orderDetailsDTOList.add(orderDetailsDTO);
         }
-        return ResponseEntity.ok(dataResponseOrderList);
+
+        Collections.sort(orderDetailsDTOList, Comparator.comparing(OrderDetailsDTO::getNum));
+
+        return ResponseEntity.ok(orderDetailsDTOList);
     }
+
 
     @DeleteMapping("/{id}")
     @Transactional

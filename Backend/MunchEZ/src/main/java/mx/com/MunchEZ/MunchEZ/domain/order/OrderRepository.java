@@ -10,29 +10,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findAllByState(State state);
 
-    List<Order> findAllByActive(Boolean active);
-
-    List<Order> findAllByNum(String num);
-
-    List<Order> findAllById(Long id);
-
-    List<Order> findAllByData(LocalDate data);
-
-    List<Order> findAllByDataBetween(LocalDate startOfDay, LocalDate endOfDay);
-
-    List<Order> findAllByName(String name);
-
+    List<Order> findAll();
     List<Order> findAllByStateAndActive(State state, Boolean active);
 
-
+    List<Order> findAllByOrderByData();
 
     @Modifying
     @Transactional
     void deleteByDataBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
-
-    void deleteByData(LocalDateTime date);
-
 
 }
