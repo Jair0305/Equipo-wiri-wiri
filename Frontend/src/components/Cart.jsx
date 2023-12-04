@@ -167,7 +167,7 @@ const Cart = forwardRef(function Cart(props, ref) {
         <section className='flex justify-start items-center gap-4'>
           {/* Order */}
           <div className='bg-[#F3C623] w-[60px] h-[60px] flex justify-center items-center font-bold text-xl rounded-[50%]'>
-            {orderNumber}
+            #{orderNumber}
           </div>
           <div className='flex justify-between text-xl'>
             <h3 htmlFor='customerName' className='text-[24px] xl:text-[30px]'>

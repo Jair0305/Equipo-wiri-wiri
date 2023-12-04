@@ -120,7 +120,7 @@ const Order = ({ order, fetchOrders }) => {
       </section>
 
       {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10'>
+        <div className='fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-10'>
           <div className='bg-white p-8 rounded-lg'>
             <p className='text-xl font-bold mb-4'>{confirmationMessages[confirmationType]}</p>
             <div className='flex justify-evenly'>
