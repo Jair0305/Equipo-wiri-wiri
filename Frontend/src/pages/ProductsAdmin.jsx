@@ -5,13 +5,14 @@ import foodImg from '../assets/images/food.jpg'
 import drinkImg from '../assets/images/drink.jpg'
 import dessertImg from '../assets/images/dessert.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faToggleOff, faToggleOn, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import CreateProductAdminModal from '../components/CreateProductAdminModal'
 import EditProductAdminModal from '../components/EditProductAdminModa'
 
 const ProductsAdmin = () => {
   const [allProducts, setAllProducts] = useState([]) // Almacena todos los productos
   const [filteredProducts, setFilteredProducts] = useState([]) // Almacena productos filtrados
+  const [isProductDisabledMap, setIsProductDisabledMap] = useState({})
 
   const fetchProducts = async () => {
     const data = await getProducts()
@@ -25,6 +26,13 @@ const ProductsAdmin = () => {
 
   const handleSearch = (filteredProducts) => {
     setFilteredProducts(filteredProducts)
+  }
+
+  const handleDisable = (productId) => {
+    setIsProductDisabledMap((prevMap) => ({
+      ...prevMap,
+      [productId]: !prevMap[productId],
+    }))
   }
 
   return (
@@ -55,6 +63,15 @@ const ProductsAdmin = () => {
                 <section className='md:col-span-1 flex md:flex-col justify-evenly items-center gap-4 h-[100px] lg:h-full md:pr-4 md:pl-6 border-t-[1px] md:border-l-[1px] md:border-t-0 border-[#e0e0e0]'>
                   <div className='text-sm lg:text-base font-bold'>
                     <EditProductAdminModal fetchProducts={fetchProducts} product={product} />
+                  </div>
+                  <div className='text-sm lg:text-base font-bold'>
+                    <button>
+                      <FontAwesomeIcon
+                        icon={isProductDisabledMap[product.id] ? faToggleOn : faToggleOff}
+                        className='transition-colors h-[30px] lg:h-[25px] text-red-700 hover:text-red-600'
+                        onClick={() => handleDisable(product.id)}
+                      />
+                    </button>
                   </div>
                   <div className='text-sm lg:text-base font-bold'>
                     <button>
