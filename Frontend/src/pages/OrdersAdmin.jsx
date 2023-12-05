@@ -25,6 +25,7 @@ const OrdersAdmin = () => {
     const data = await getAllOrders()
     setAllOrders(data)
     setFilteredOrders(data) // Inicialmente, muestra todas las órdenes
+    console.log(data)
   }
 
   const handleDetailsClick = (orderId) => {
@@ -53,14 +54,15 @@ const OrdersAdmin = () => {
     FOR_HERE: 'Para comer aquí',
   }
 
-  const formatDate = (dateArray) => {
-    const formattedDate = new Date(...dateArray)
+  const formatDate = (dateString) => {
+    const formattedDate = new Date(dateString)
+
     const formattedYear = formattedDate.getFullYear()
-    const formattedMonth = formattedDate.getMonth() + 1
-    const formattedDay = formattedDate.getDate()
-    const formattedHours = formattedDate.getHours()
-    const formattedMinutes = formattedDate.getMinutes()
-    const formattedSeconds = formattedDate.getSeconds()
+    const formattedMonth = String(formattedDate.getMonth() + 1).padStart(2, '0')
+    const formattedDay = String(formattedDate.getDate()).padStart(2, '0')
+    const formattedHours = String(formattedDate.getHours()).padStart(2, '0')
+    const formattedMinutes = String(formattedDate.getMinutes()).padStart(2, '0')
+    const formattedSeconds = String(formattedDate.getSeconds()).padStart(2, '0')
 
     const formattedDateString = `${formattedDay}/${formattedMonth}/${formattedYear} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`
     return formattedDateString
@@ -98,10 +100,9 @@ const OrdersAdmin = () => {
       filteredData.sort((a, b) => {
         const aValue = a[column]
         const bValue = b[column]
-
         if (column === 'data') {
-          const dateA = new Date(...aValue)
-          const dateB = new Date(...bValue)
+          const dateA = new Date(aValue)
+          const dateB = new Date(bValue)
 
           return direction === 'asc' ? dateA - dateB : dateB - dateA
         } else if (typeof aValue === 'string' && typeof bValue === 'string') {
