@@ -17,8 +17,9 @@ const OrdersAdmin = () => {
     total: 'asc',
     data: 'asc',
   })
-  const [openModal, setOpenModal] = useState(false)
+  // const [openModal, setOpenModal] = useState(false)
   const [openDetailsOrderId, setOpenDetailsOrderId] = useState(null)
+  const [orderToDelete, setOrderToDelete] = useState(null)
 
   const fetchOrders = async () => {
     const data = await getAllOrders()
@@ -122,8 +123,8 @@ const OrdersAdmin = () => {
         'Content-Type': 'application/json',
       },
     })
-    console.log(response)
-    setOpenModal(false)
+    // setOpenModal(false)
+    setOrderToDelete(null)
     await fetchOrders()
   }
 
@@ -136,7 +137,6 @@ const OrdersAdmin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterCriteria, sortColumn, sortDirection])
 
-  console.log(allOrders)
   return (
     <>
       <section className='flex m-auto max-w-[1224px] gap-4 bg-[#EAEAF5] z-10'>
@@ -290,9 +290,9 @@ const OrdersAdmin = () => {
                   <FontAwesomeIcon
                     className='cursor-pointer h-[20px] focus:ring-[#F3C623] focus:border-[1px] focus:border-[#F3C623] text-red-700'
                     icon={faTrash}
-                    onClick={setOpenModal}
+                    onClick={() => setOrderToDelete(order.id)}
                   />
-                  <Modal show={openModal} size='md' onClose={() => setOpenModal(false)} popup>
+                  <Modal show={orderToDelete === order.id} size='md' onClose={() => setOrderToDelete(null)} popup>
                     <Modal.Header />
                     <Modal.Body>
                       <div className='text-center'>
@@ -307,7 +307,7 @@ const OrdersAdmin = () => {
                           <Button color='failure' onClick={() => handleDelete(order.id)}>
                             {'Si, estoy segur@'}
                           </Button>
-                          <Button color='gray' onClick={() => setOpenModal(false)}>
+                          <Button color='gray' onClick={() => setOrderToDelete(null)}>
                             No, cancelar.
                           </Button>
                         </div>
