@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 
@@ -29,6 +29,17 @@ const Order = ({ order, fetchOrders }) => {
     DELETE_ORDER: '¿Estás seguro de eliminar esta orden?',
   }
 
+  const cancelOrder = async () => {
+    // Implement logic to cancel order
+    await fetch(`http://localhost:8080/order/cancelorder/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    await fetchOrders()
+  }
+
   const markOrderAsReady = async () => {
     // Implement logic to mark order as ready
     await fetch(`http://localhost:8080/order/deliveredorder/${id}`, {
@@ -47,7 +58,7 @@ const Order = ({ order, fetchOrders }) => {
       markOrderAsReady()
     } else if (confirmationType === 'DELETE_ORDER') {
       // Handle order deletion
-      console.log('Order deleted')
+      cancelOrder()
     }
 
     // Close the modal
@@ -83,7 +94,7 @@ const Order = ({ order, fetchOrders }) => {
 
       <section className='p-4'>
         <p className='text-xl'>Notas Adicionales:</p>
-        <div className='mt-4 rounded-3xl border-[#ABA7A7] border-[1px]'>
+        <div className='mt-4 '>
           <textarea
             name='additional-notes'
             id='additionalNotes'
@@ -104,12 +115,12 @@ const Order = ({ order, fetchOrders }) => {
         <button
           className='w-[80px] h-[80px] border-[4px] border-[#D8315B] rounded-3xl text-[#D8315B] font-bold text-xl'
           onClick={() => handleOpenModal('DELETE_ORDER')}>
-          <FontAwesomeIcon icon={faXmark} className='h-[40px]' />
+          <FontAwesomeIcon icon={faTrash} className='h-[30px]' />
         </button>
       </section>
 
       {isModalOpen && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center'>
+        <div className='fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-10'>
           <div className='bg-white p-8 rounded-lg'>
             <p className='text-xl font-bold mb-4'>{confirmationMessages[confirmationType]}</p>
             <div className='flex justify-evenly'>

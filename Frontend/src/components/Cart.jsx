@@ -10,7 +10,7 @@ import { faPaperPlane, faXmark } from '@fortawesome/free-solid-svg-icons'
 //toastify
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { postProduct } from '../api/products'
+import { postOrder } from '../api/products'
 import { getOrders } from '../api/orders'
 
 const Cart = forwardRef(function Cart(props, ref) {
@@ -105,8 +105,8 @@ const Cart = forwardRef(function Cart(props, ref) {
 
     // Obtener la fecha y hora actual en el formato deseado
     const currentDate = new Date()
-    const formattedDate = currentDate.toISOString()
-
+    // const formattedDate = currentDate.toISOString()
+    const formattedDate = new Date(currentDate.getTime() - currentDate.getTimezoneOffset() * 60000).toISOString()
     // calc total
     const calculatedTotal = calculateTotal()
 
@@ -130,8 +130,7 @@ const Cart = forwardRef(function Cart(props, ref) {
     }
 
     try {
-      console.log(orderData)
-      const response = await postProduct(orderData)
+      const response = await postOrder(orderData)
       if (response) {
         notify()
         clearForm()
@@ -168,7 +167,7 @@ const Cart = forwardRef(function Cart(props, ref) {
         <section className='flex justify-start items-center gap-4'>
           {/* Order */}
           <div className='bg-[#F3C623] w-[60px] h-[60px] flex justify-center items-center font-bold text-xl rounded-[50%]'>
-            {orderNumber}
+            #{orderNumber}
           </div>
           <div className='flex justify-between text-xl'>
             <h3 htmlFor='customerName' className='text-[24px] xl:text-[30px]'>

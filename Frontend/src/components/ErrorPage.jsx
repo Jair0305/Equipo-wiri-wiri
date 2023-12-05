@@ -1,14 +1,22 @@
-import { useRouteError } from 'react-router-dom'
+import munchEZLogo from '../assets/logos/MunchEZ-white.svg'
+import { useNavigate } from 'react-router-dom'
 
-const ErrorPage = ({ text }) => {
-  const error = useRouteError()
+const ErrorPage = () => {
+  const navigate = useNavigate()
+
+  const redirectToPrevious = () => {
+    navigate(-1) // -1 indica retroceder en la historia
+  }
+
   return (
-    <div className='space-y-8'>
-      <h1 className='text-center text-6xl font-extrabold text-blue-900'>
-        MunchEZ<span className='text-orange-300 text-4xl'>.</span>
-      </h1>
-      <p className='text-center text-2xl font-bold text-blue-900'>Something went wrong</p>
-      <p className='text-center text-xl font-bold text-blue-900'>{text || error.statusText || error.message}</p>
+    <div className='flex flex-col gap-4'>
+      <div className='flex justify-center items-center gap-4 mt-20'>
+        <img className='w-[100px]' src={munchEZLogo} alt='logo MunchEZ' />
+        <h1 className='text-2xl text-center '>Error 404 - Página no encontrada</h1>
+      </div>
+      <button className='text-lg text-[#F3C623] underline' onClick={redirectToPrevious}>
+        Ir a la ruta anterior
+      </button>
     </div>
   )
 }
