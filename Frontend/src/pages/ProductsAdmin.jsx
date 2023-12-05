@@ -1,95 +1,97 @@
 import { useEffect, useState } from 'react'
-import { getProducts } from '../api/products'
+import { getAdminProducts } from '../api/products'
 import ProductSearch from '../components/ProductSearch'
-import foodImg from '../assets/images/food.jpg'
-import drinkImg from '../assets/images/drink.jpg'
-import dessertImg from '../assets/images/dessert.jpg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faToggleOff, faToggleOn, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import CreateProductAdminModal from '../components/CreateProductAdminModal'
-import EditProductAdminModal from '../components/EditProductAdminModa'
+import ProductsAdminList from '../components/ProductsAdminList'
 
 const ProductsAdmin = () => {
   const [allProducts, setAllProducts] = useState([]) // Almacena todos los productos
   const [filteredProducts, setFilteredProducts] = useState([]) // Almacena productos filtrados
-  const [isProductDisabledMap, setIsProductDisabledMap] = useState({})
+  const [activeProducts, setActiveProducts] = useState([]) // Almacena productos activos
+  const [inactiveProducts, setInactiveProducts] = useState([]) // Almacena productos inactivos
 
   const fetchProducts = async () => {
-    const data = await getProducts()
+    const data = await getAdminProducts()
     const products = data.food.concat(data.drinks, data.desserts)
     setAllProducts(products)
     setFilteredProducts(products) // Inicialmente, muestra todos los productos
   }
-  useEffect(() => {
-    fetchProducts()
-  }, [])
 
   const handleSearch = (filteredProducts) => {
     setFilteredProducts(filteredProducts)
   }
 
-  const handleDisable = (productId) => {
-    setIsProductDisabledMap((prevMap) => ({
-      ...prevMap,
-      [productId]: !prevMap[productId],
-    }))
+  const handleDisable = async (productId, product) => {
+    if (product.active === true) {
+      try {
+        const disableProduct = await fetch(`http://localhost:8080/product/disable/${productId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        if (disableProduct) {
+          // La solicitud PUT se completó con éxito, ahora se puede actualizar la lista de productos
+          await fetchProducts()
+        } else {
+          console.error('Error al actualizar el estado del producto:', disableProduct.statusText)
+        }
+      } catch (error) {
+        console.error('Error al realizar la solicitud PUT:', error)
+      }
+    } else {
+      try {
+        const putProduct = await fetch(`http://localhost:8080/product/${productId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(product),
+        })
+
+        if (putProduct) {
+          // La solicitud PUT se completó con éxito, ahora se puede actualizar la lista de productos
+          await fetchProducts()
+        } else {
+          console.error('Error al actualizar el estado del producto:', putProduct.statusText)
+        }
+      } catch (error) {
+        console.error('Error al realizar la solicitud PUT:', error)
+      }
+    }
   }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
+  useEffect(() => {
+    setActiveProducts(filteredProducts.filter((product) => product.active === true))
+    setInactiveProducts(filteredProducts.filter((product) => product.active !== true))
+  }, [filteredProducts])
 
   return (
     <div className='flex flex-col'>
       <ProductSearch products={allProducts} onSearch={handleSearch} />
-      <div className='flex flex-col-reverse gap-4 items-center md:flex-row md:justify-between lg:pr-10 lg:pl-10 pb-8 bg-[#EAEAF5]'>
-        <h1 className='text-3xl font-bold'>
-          Productos <span className='text-xl text-[#6e6e6e] pl-2'>{filteredProducts.length} resultados</span>
+      <div className=' flex flex-col-reverse gap-4 items-center md:flex-row md:justify-between lg:pr-10 lg:pl-10 pb-8 bg-[#EAEAF5]'>
+        <h1 className='text-3xl font-bold flex flex-col items-center md:flex-row md:items-end'>
+          Productos Activos
+          <span className='text-xl text-[#6e6e6e] pl-2'>{activeProducts.length} resultados</span>
         </h1>
         <CreateProductAdminModal fetchProducts={fetchProducts} />
       </div>
-      <section className='h-[calc(100vh-400px)] overflow-auto'>
-        <div className='grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-x-8 px-8 overflow-y-auto w-full pt-4 border-t-2 border-[#dfdcdc]'>
-          {filteredProducts.length ? (
-            filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-8 xl:grid-cols-7 md:gap-2 p-4 justify-center items-center shadow-xl rounded-lg bg-[#F7F6FF] mb-8 hover:scale-[1.01] transition-all'>
-                <img
-                  src={product.type === 'FOOD' ? foodImg : product.type === 'DRINKS' ? drinkImg : dessertImg}
-                  alt={product.name}
-                  className=' md:col-span-3 xl:col-span-2 h-auto object-cover mb-4 lg:pr-1 lg:mb-0 rounded-lg'
-                />
-                <div className='md:col-span-4 xl:col-span-4 flex flex-col justify-center items-start'>
-                  <h2 className='text-xl lg:text-xl font-bold'>{product.name}</h2>
-                  <p className='text-base lg:text-sm text-justify mb-4 md:pr-2'>{product.description}</p>
-                </div>
-                <section className='md:col-span-1 flex md:flex-col justify-evenly items-center gap-4 h-[100px] lg:h-full md:pr-4 md:pl-6 border-t-[1px] md:border-l-[1px] md:border-t-0 border-[#e0e0e0]'>
-                  <div className='text-sm lg:text-base font-bold'>
-                    <EditProductAdminModal fetchProducts={fetchProducts} product={product} />
-                  </div>
-                  <div className='text-sm lg:text-base font-bold'>
-                    <button>
-                      <FontAwesomeIcon
-                        icon={isProductDisabledMap[product.id] ? faToggleOn : faToggleOff}
-                        className='transition-colors h-[30px] lg:h-[25px] text-red-700 hover:text-red-600'
-                        onClick={() => handleDisable(product.id)}
-                      />
-                    </button>
-                  </div>
-                  <div className='text-sm lg:text-base font-bold'>
-                    <button>
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        className='transition-colors h-[30px] lg:h-[25px] text-red-700 hover:text-red-600'
-                      />
-                    </button>
-                  </div>
-                </section>
-              </div>
-            ))
-          ) : (
-            <div className='col-span-full flex items-center justify-center p-4'>
-              <h1 className='font-bold text-2xl text-center'>No se encontraron coincidencias.</h1>
-            </div>
-          )}
-        </div>
+      <section className='max-h-[calc(100vh-350px)] overflow-auto'>
+        <ProductsAdminList products={activeProducts} handleDisable={handleDisable} fetchProducts={fetchProducts} />
+      </section>
+
+      <div className='sticky top-0 flex flex-col-reverse gap-4 items-center md:flex-row md:justify-between lg:pr-10 lg:pl-10 pb-8 bg-[#EAEAF5]'>
+        <h1 className='text-3xl font-bold flex flex-col items-center md:flex-row md:items-end mt-8'>
+          Productos Inactivos
+          <span className='text-xl text-[#6e6e6e] pl-2'>{inactiveProducts.length} resultados</span>
+        </h1>
+      </div>
+      <section className='max-h-[calc(100vh-350px)] overflow-auto mb-8'>
+        <ProductsAdminList products={inactiveProducts} handleDisable={handleDisable} fetchProducts={fetchProducts} />
       </section>
     </div>
   )

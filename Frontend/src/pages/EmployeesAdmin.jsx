@@ -1,4 +1,4 @@
-import { Table } from "flowbite-react"
+import { Table } from 'flowbite-react'
 
 const EmployeesAdmin = () => {
   return (
@@ -8,9 +8,7 @@ const EmployeesAdmin = () => {
       </section>
 
       <section className='overflow-x-auto m-auto max-w-[1224px]'>
-        <Table>
-          
-        </Table>
+        <Table></Table>
       </section>
     </>
   )

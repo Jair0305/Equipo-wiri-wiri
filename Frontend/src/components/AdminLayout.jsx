@@ -9,7 +9,7 @@ const AdminLayout = () => {
       <Header />
       {/* Products */}
       <div className='w-full'>
-        <main className='w-full mx-0 px-8'>
+        <main className='w-full mx-0 px-8 bg-[#EAEAF5]'>
           <Navigation />
           <Outlet />
         </main>

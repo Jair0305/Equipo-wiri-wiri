@@ -26,7 +26,7 @@ const EditProductAdminModal = ({ fetchProducts, product }) => {
   }
 
   useEffect(() => {
-    // restore form data when product changes 
+    // restore form data when product changes
     setNewName(name)
     setNewPrice(price)
     setNewCategory(type)
