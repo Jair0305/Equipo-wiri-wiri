@@ -13,6 +13,7 @@ import mx.com.MunchEZ.MunchEZ.domain.product.Product;
 import mx.com.MunchEZ.MunchEZ.domain.product.ProductRepository;
 import mx.com.MunchEZ.MunchEZ.dto.DetailDTO;
 import mx.com.MunchEZ.MunchEZ.dto.OrderDetailsDTO;
+import mx.com.MunchEZ.MunchEZ.infra.error.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,7 @@ public class OrderController {
         if (dataRegisterOrder.details() != null) {
             for (DataRegisterDetail dataRegisterDetail : dataRegisterOrder.details()) {
                 Product product = productRepository.findById(dataRegisterDetail.det_pro_id())
-                        .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + dataRegisterDetail.det_pro_id()));
+                        .orElseThrow(() -> new IntegrityValidation("Product not found with id: " + dataRegisterDetail.det_pro_id()));
 
                 DetailID detailId = new DetailID(order.getId(), product.getId());
                 Detail detail = new Detail();
@@ -143,15 +144,6 @@ public class OrderController {
         return ResponseEntity.ok(orderDetailsDTOList);
     }
 
-
-    @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity<DataResponseOrder> deleteOrder(@PathVariable Long id){
-        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
-        orderRepository.delete(order);
-        return ResponseEntity.ok().build();
-    }
-
     @DeleteMapping("/deleteperday/{date}")
     public ResponseEntity<String> deleteOrdersForDate(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay();
@@ -171,7 +163,7 @@ public class OrderController {
     @DeleteMapping("/cancelorder/{id}")
     @Transactional
     public ResponseEntity<DataResponseOrder> cancelOrder(@PathVariable Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Order not found with id: " + id));
         order.cancelOrder();
         return ResponseEntity.ok().build();
     }
@@ -179,7 +171,7 @@ public class OrderController {
     @DeleteMapping("/deliveredorder/{id}")
     @Transactional
     public ResponseEntity<DataResponseOrder> deliveredOrder(@PathVariable Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Order not found with id: " + id));
         order.deliveredOrder();
         return ResponseEntity.ok().build();
     }
