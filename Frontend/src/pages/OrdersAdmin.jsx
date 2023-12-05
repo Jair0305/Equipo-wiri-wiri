@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Badge, Button, Card, Modal, Pagination, Select, Table } from 'flowbite-react'
 import { getAllOrders } from '../api/orders'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCancel,
-  faCheckCircle,
-  faClock,
-  faClose,
-  faExclamationCircle,
-  faPlus,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCancel, faCheckCircle, faClock, faExclamationCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const OrdersAdmin = () => {
   const [allOrders, setAllOrders] = useState([])
@@ -26,7 +18,7 @@ const OrdersAdmin = () => {
     data: 'asc',
   })
   const [openModal, setOpenModal] = useState(false)
-  const [openDetailsCard, setOpenDetailsCard] = useState({})
+  const [openDetailsOrderId, setOpenDetailsOrderId] = useState(null)
 
   const fetchOrders = async () => {
     const data = await getAllOrders()
@@ -35,10 +27,8 @@ const OrdersAdmin = () => {
   }
 
   const handleDetailsClick = (orderId) => {
-    setOpenDetailsCard((prevOpenDetailsCard) => ({
-      ...prevOpenDetailsCard,
-      [orderId]: !prevOpenDetailsCard[orderId],
-    }))
+    // Si la orden ya está abierta, ciérrala; de lo contrario, ábrela
+    setOpenDetailsOrderId((prevOrderId) => (prevOrderId === orderId ? null : orderId))
   }
 
   const ordersPerPage = 10
@@ -191,142 +181,141 @@ const OrdersAdmin = () => {
           </Table.Head>
           <Table.Body className='divide-y'>
             {ordersToDisplay.map((order) => (
-              <React.Fragment key={order.id}>
-                <Table.Row key={order.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                  <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>{order.id}</Table.Cell>
-                  <Table.Cell
-                    className={`${
-                      orderStateDisplay[order.state] === 'Entregada'
-                        ? 'text-green-500'
-                        : orderStateDisplay[order.state] === 'En proceso'
-                        ? 'text-yellow-400'
-                        : 'text-red-700'
-                    }
+              <Table.Row key={order.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                <Table.Cell className='whitespace-nowrap font-medium text-gray-900 dark:text-white'>{order.id}</Table.Cell>
+                <Table.Cell
+                  className={`${
+                    orderStateDisplay[order.state] === 'Entregada'
+                      ? 'text-green-500'
+                      : orderStateDisplay[order.state] === 'En proceso'
+                      ? 'text-yellow-400'
+                      : 'text-red-700'
+                  }
                   font-bold`}>
-                    <FontAwesomeIcon
-                      icon={
-                        orderStateDisplay[order.state] === 'Entregada'
-                          ? faCheckCircle
-                          : orderStateDisplay[order.state] === 'En proceso'
-                          ? faClock
-                          : faCancel
-                      }
-                    />{' '}
-                    {orderStateDisplay[order.state]}
-                  </Table.Cell>
-                  <Table.Cell>{`$${order.total}`}</Table.Cell>
-                  <Table.Cell>{formatDate(order.data)}</Table.Cell>
+                  <FontAwesomeIcon
+                    icon={
+                      orderStateDisplay[order.state] === 'Entregada'
+                        ? faCheckCircle
+                        : orderStateDisplay[order.state] === 'En proceso'
+                        ? faClock
+                        : faCancel
+                    }
+                  />{' '}
+                  {orderStateDisplay[order.state]}
+                </Table.Cell>
+                <Table.Cell>{`$${order.total}`}</Table.Cell>
+                <Table.Cell>{formatDate(order.data)}</Table.Cell>
 
-                  <Table.Cell>
-                    <button className='text-blue-500 hover:underline' onClick={() => handleDetailsClick(order.id)}>
-                      Ver Detalles
-                    </button>
+                <Table.Cell>
+                  <button className='text-blue-500 hover:underline' onClick={() => handleDetailsClick(order.id)}>
+                    Ver Detalles
+                  </button>
 
-                    <div
-                      className={`fixed inset-0 z-40 ${openDetailsCard[order.id] ? 'bg-black bg-opacity-50' : 'hidden'}`}></div>
-                    {openDetailsCard[order.id] && (
-                      <>
-                        <Card className='w-full px-4 sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] fixed top-[50%] right-[50%] translate-x-[50%] translate-y-[-50%] z-50'>
-                          <section className='flex flex-col lg:flex-row justify-between items-center gap-2'>
-                            <h5 className='text-xl tracking-tight text-gray-900 dark:text-white'>
-                              Detalles de la orden con ID <span className='font-bold'>{order.id}</span>
-                            </h5>
-                            <div className='flex gap-4'>
-                              <Badge
-                                color='info'
-                                className={`${
+                  {openDetailsOrderId === order.id && (
+                    <>
+                      <div key={`overlay-${order.id}`} className={`fixed inset-0 z-40 bg-black bg-opacity-50`}></div>
+                      <Card
+                        key={`card-${order.id}`}
+                        className='w-full px-4 sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] fixed top-[50%] right-[50%] translate-x-[50%] translate-y-[-50%] z-50'>
+                        <section className='flex flex-col lg:flex-row justify-between items-center gap-2'>
+                          <h5 className='text-xl tracking-tight text-gray-900 dark:text-white'>
+                            Detalles de la orden con ID <span className='font-bold'>{order.id}</span>
+                          </h5>
+                          <div className='flex gap-4'>
+                            <Badge
+                              color='info'
+                              className={`${
+                                orderStateDisplay[order.state] === 'Entregada'
+                                  ? 'text-green-500'
+                                  : orderStateDisplay[order.state] === 'En proceso'
+                                  ? 'text-yellow-400'
+                                  : 'text-red-700'
+                              } font-bold`}>
+                              <FontAwesomeIcon
+                                icon={
                                   orderStateDisplay[order.state] === 'Entregada'
-                                    ? 'text-green-500'
+                                    ? faCheckCircle
                                     : orderStateDisplay[order.state] === 'En proceso'
-                                    ? 'text-yellow-400'
-                                    : 'text-red-700'
-                                } font-bold`}>
-                                <FontAwesomeIcon
-                                  icon={
-                                    orderStateDisplay[order.state] === 'Entregada'
-                                      ? faCheckCircle
-                                      : orderStateDisplay[order.state] === 'En proceso'
-                                      ? faClock
-                                      : faCancel
-                                  }
-                                />{' '}
-                                {orderStateDisplay[order.state]}
-                              </Badge>
-                              <Badge color={`${order.ordertype === 'TAKEOUT' ? 'failure' : 'warning'}`}>
-                                {orderTypeDisplay[order.ordertype]}
-                              </Badge>
-                            </div>
-                          </section>
-                          <section className='flex flex-col items-center gap-2 font-normal text-gray-700 dark:text-gray-400'>
-                            <div className='flex flex-col items-center gap-2'>
-                              <div className='bg-[#F3C623] w-[50px] h-[50px] flex justify-center items-center font-bold text-xl rounded-[50%]'>
-                                #{order.num}
-                              </div>
-                              <p className='text-xl'>
-                                de <span className='font-bold'>{order.name}</span>
-                              </p>
-                            </div>
-                          </section>
-                          <hr className='bg-black' />
-                          <section>
-                            <h5 className='flex justify-center text-lg font-bold text-black pb-4'>Productos</h5>
-                            {order.orderDetails.map((product) => (
-                              <>
-                                <div key={product.id} className='flex justify-between'>
-                                  <p className='font-bold'>{product.productName}</p>
-                                  <div className='flex gap-8 items-center'>
-                                    <p className='text-base font-bold'>x{product.det_amount}</p>
-                                    <p className='text-base font-bold text-black mr-2'>${product.price}</p>
-                                  </div>
-                                </div>
-                                <hr className='mb-2' />
-                              </>
-                            ))}
-                            <div className='flex justify-end'>
-                              <Badge color='dark' className='flex gap-2 text-lg text-white font-normal'>
-                                Total: <span className=''>${order.total}</span>
-                              </Badge>
-                            </div>
-                          </section>
-                          <Button color='dark' onClick={() => handleDetailsClick(order.id)}>
-                            Cerrar
-                          </Button>
-                        </Card>
-                      </>
-                    )}
-                  </Table.Cell>
-
-                  <Table.Cell className='flex justify-center md:flex-row md:justify-evenly items-center gap-4'>
-                    <FontAwesomeIcon
-                      className='cursor-pointer h-[20px] focus:ring-[#F3C623] focus:border-[1px] focus:border-[#F3C623] text-red-700'
-                      icon={faTrash}
-                      onClick={setOpenModal}
-                    />
-                    <Modal show={openModal} size='md' onClose={() => setOpenModal(false)} popup>
-                      <Modal.Header />
-                      <Modal.Body>
-                        <div className='text-center'>
-                          <FontAwesomeIcon
-                            icon={faExclamationCircle}
-                            className='mx-auto mb-4 h-14 w-14 text-[#F3C623] dark:text-gray-200'
-                          />
-                          <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
-                            ¿Está segur@ que desea eliminar esta orden?
-                          </h3>
-                          <div className='flex justify-center gap-4'>
-                            <Button color='failure' onClick={() => handleDelete(order.id)}>
-                              {'Si, estoy segur@'}
-                            </Button>
-                            <Button color='gray' onClick={() => setOpenModal(false)}>
-                              No, cancelar.
-                            </Button>
+                                    ? faClock
+                                    : faCancel
+                                }
+                              />{' '}
+                              {orderStateDisplay[order.state]}
+                            </Badge>
+                            <Badge color={`${order.ordertype === 'TAKEOUT' ? 'failure' : 'warning'}`}>
+                              {orderTypeDisplay[order.ordertype]}
+                            </Badge>
                           </div>
+                        </section>
+                        <section className='flex flex-col items-center gap-2 font-normal text-gray-700 dark:text-gray-400'>
+                          <div className='flex flex-col items-center gap-2'>
+                            <div className='bg-[#F3C623] w-[50px] h-[50px] flex justify-center items-center font-bold text-xl rounded-[50%]'>
+                              #{order.num}
+                            </div>
+                            <p className='text-xl'>
+                              de <span className='font-bold'>{order.name}</span>
+                            </p>
+                          </div>
+                        </section>
+                        <hr className='bg-black' />
+                        <section>
+                          <h5 className='flex justify-center text-lg font-bold text-black pb-4'>Productos</h5>
+                          {order.orderDetails.map((product) => (
+                            <>
+                              <div key={product.id} className='flex justify-between'>
+                                <p className='font-bold'>{product.productName}</p>
+                                <div className='flex gap-8 items-center'>
+                                  <p className='text-base font-bold'>x{product.det_amount}</p>
+                                  <p className='text-base font-bold text-black mr-2'>${product.price}</p>
+                                </div>
+                              </div>
+                              <hr className='mb-2' />
+                            </>
+                          ))}
+                          <div className='flex justify-end'>
+                            <Badge color='dark' className='flex gap-2 text-lg text-white font-normal'>
+                              Total: <span className=''>${order.total}</span>
+                            </Badge>
+                          </div>
+                        </section>
+                        <Button color='dark' onClick={() => handleDetailsClick(order.id)}>
+                          Cerrar
+                        </Button>
+                      </Card>
+                    </>
+                  )}
+                </Table.Cell>
+
+                <Table.Cell className='flex justify-center md:flex-row md:justify-evenly items-center gap-4'>
+                  <FontAwesomeIcon
+                    className='cursor-pointer h-[20px] focus:ring-[#F3C623] focus:border-[1px] focus:border-[#F3C623] text-red-700'
+                    icon={faTrash}
+                    onClick={setOpenModal}
+                  />
+                  <Modal show={openModal} size='md' onClose={() => setOpenModal(false)} popup>
+                    <Modal.Header />
+                    <Modal.Body>
+                      <div className='text-center'>
+                        <FontAwesomeIcon
+                          icon={faExclamationCircle}
+                          className='mx-auto mb-4 h-14 w-14 text-[#F3C623] dark:text-gray-200'
+                        />
+                        <h3 className='mb-5 text-lg font-normal text-gray-500 dark:text-gray-400'>
+                          ¿Está segur@ que desea eliminar esta orden?
+                        </h3>
+                        <div className='flex justify-center gap-4'>
+                          <Button color='failure' onClick={() => handleDelete(order.id)}>
+                            {'Si, estoy segur@'}
+                          </Button>
+                          <Button color='gray' onClick={() => setOpenModal(false)}>
+                            No, cancelar.
+                          </Button>
                         </div>
-                      </Modal.Body>
-                    </Modal>
-                  </Table.Cell>
-                </Table.Row>
-              </React.Fragment>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                </Table.Cell>
+              </Table.Row>
             ))}
           </Table.Body>
         </Table>

@@ -161,7 +161,7 @@ const Cart = forwardRef(function Cart(props, ref) {
   return (
     <aside
       ref={ref}
-      className={`py-8 px-6 lg:px-0 lg:mr-6 lg:py-0 w-full lg:mt-10 h-full right-0 block bg-[#F7F6FF] z-10 lg:relative lg:w-2/5 xl:mr-[5%] xl:1/5 2xl:mr-[10%]`}>
+      className={`py-8 px-6 lg:px-0 lg:mr-6 lg:py-0 w-full lg:mt-16 h-full right-0 block bg-[#F7F6FF] z-10 lg:relative lg:w-2/5 xl:mr-[5%] xl:1/5 2xl:mr-[10%]`}>
       <form onSubmit={handleSubmit} className='bg-[#F7F6FF] border-[1px] border-[#ABA7A7] p-5 rounded-md'>
         {/* Order Summary */}
         <section className='flex justify-start items-center gap-4'>
@@ -177,7 +177,7 @@ const Cart = forwardRef(function Cart(props, ref) {
           <div
             className={`inset-0 ${
               isTextFocused ? 'border-black' : 'border-[#F3C623]'
-            } p-2 bg-[#F3C623]  border-2 outline-none rounded-lg py-1`}>
+            } p-2 bg-[#F3C623] border-2 outline-none rounded-lg py-1`}>
             <input
               id='customerName'
               type='text'
