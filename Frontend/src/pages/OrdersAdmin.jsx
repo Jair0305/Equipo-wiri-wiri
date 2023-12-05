@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Badge, Button, Card, Modal, Pagination, Select, Table } from 'flowbite-react'
 import { getAllOrders } from '../api/orders'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCancel,
-  faCheckCircle,
-  faClock,
-  faClose,
-  faExclamationCircle,
-  faPlus,
-  faTrash,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCancel, faCheckCircle, faClock, faExclamationCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 const OrdersAdmin = () => {
   const [allOrders, setAllOrders] = useState([])
