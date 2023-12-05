@@ -144,15 +144,6 @@ public class OrderController {
         return ResponseEntity.ok(orderDetailsDTOList);
     }
 
-
-    @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity<DataResponseOrder> deleteOrder(@PathVariable Long id){
-        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + id));
-        orderRepository.delete(order);
-        return ResponseEntity.ok().build();
-    }
-
     @DeleteMapping("/deleteperday/{date}")
     public ResponseEntity<String> deleteOrdersForDate(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay();

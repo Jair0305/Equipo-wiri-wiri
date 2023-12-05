@@ -1,15 +1,11 @@
 package mx.com.MunchEZ.MunchEZ.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import mx.com.MunchEZ.MunchEZ.domain.product.*;
 import mx.com.MunchEZ.MunchEZ.infra.error.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -56,6 +52,32 @@ public class ProductController {
         }
 
         DataProductByTypeResponse response = new DataProductByTypeResponse(foodList, drinksList, dessertsList);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/admin/all")
+    public ResponseEntity<DataProductAllResponse> getAllProducts()
+    {
+        List<Product> allProducts = productRepository.findAll();
+        List<Product> foodList = new ArrayList<>();
+        List<Product> drinksList = new ArrayList<>();
+        List<Product> dessertsList = new ArrayList<>();
+
+        for (Product product : allProducts) {
+            switch (product.getType()) {
+                case FOOD:
+                    foodList.add(product);
+                    break;
+                case DRINKS:
+                    drinksList.add(product);
+                    break;
+                case DESSERTS:
+                    dessertsList.add(product);
+                    break;
+            }
+        }
+
+        DataProductAllResponse response = new DataProductAllResponse(foodList, drinksList, dessertsList);
         return ResponseEntity.ok(response);
     }
 
