@@ -49,4 +49,8 @@ public class Personal {
     public void disablePersonal() {
         this.active = false;
     }
+
+    public void enablePersonal() {
+        this.active = true;
+    }
 }

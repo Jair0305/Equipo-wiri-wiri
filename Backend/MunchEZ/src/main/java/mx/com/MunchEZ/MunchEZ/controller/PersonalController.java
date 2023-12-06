@@ -19,6 +19,7 @@ import mx.com.MunchEZ.MunchEZ.domain.Role.RoleRepository;
 import mx.com.MunchEZ.MunchEZ.domain.personal.*;
 import mx.com.MunchEZ.MunchEZ.infra.error.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -125,22 +126,45 @@ public class PersonalController {
     }
 
     @PostMapping
-    public ResponseEntity<DataPersonalResponse> registerPersonal(@RequestBody @Valid DataPersonalRegister dataPersonalRegister, UriComponentsBuilder uriComponentsBuilder)
-    {
-        Personal personal = new Personal(dataPersonalRegister, roleRepository);
-        personal = personalRepository.save(personal);
-        DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getId(), personal.getPhone());
+    @Transactional
+    public ResponseEntity<DataPersonalResponse> registerPersonal(@RequestBody @Valid DataPersonalRegister dataPersonalRegister, UriComponentsBuilder uriComponentsBuilder) {
+        try {
+            Personal personal = new Personal(dataPersonalRegister, roleRepository);
+            personal = personalRepository.save(personal);
+            DataPersonalResponse dataPersonalResponse = new DataPersonalResponse(personal.getId(), personal.getName(), personal.getActive(), personal.getRole().getId(), personal.getPhone());
 
-        URI url = uriComponentsBuilder.path("/personal").buildAndExpand(personal.getId()).toUri();
-        return ResponseEntity.created(url).body(dataPersonalResponse);
+            URI url = uriComponentsBuilder.path("/personal").buildAndExpand(personal.getId()).toUri();
+            return ResponseEntity.created(url).body(dataPersonalResponse);
+        } catch (DataIntegrityViolationException e) {
+            throw new IntegrityValidation("Personal already exists with this phone: " + dataPersonalRegister.phone());
+        }
     }
 
-    @DeleteMapping("/{id}")
+
+    @PostMapping("/enable/{id}")
+    @Transactional
+    public ResponseEntity<?> enablePersonal(@PathVariable Long id)
+    {
+        Personal personal = personalRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Personal not found with id: " + id));
+        personal.enablePersonal();
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/disable/{id}")
     @Transactional
     public ResponseEntity<?> deletePersonal(@PathVariable Long id)
     {
         Personal personal = personalRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Personal not found with id: " + id));
         personal.disablePersonal();
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deletePersonalPermanently(@PathVariable Long id)
+    {
+        Personal personal = personalRepository.findById(id).orElseThrow(() -> new IntegrityValidation("Personal not found with id: " + id));
+        personalRepository.delete(personal);
         return ResponseEntity.ok().build();
     }
 
