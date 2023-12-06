@@ -27,7 +27,9 @@ const ProductAdminCard = ({ product, handleDisable, fetchProducts }) => {
           <button>
             <FontAwesomeIcon
               icon={active ? faToggleOn : faToggleOff}
-              className='transition-colors h-[30px] lg:h-[25px] text-red-700 hover:text-red-600'
+              className={`transition-colors h-[30px] lg:h-[25px] ${
+                active ? 'text-green-600 hover:text-green-500' : 'text-red-700 hover:text-red-600'
+              }`}
               onClick={() => handleDisable(id, product)}
             />
           </button>

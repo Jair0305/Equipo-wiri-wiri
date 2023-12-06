@@ -115,17 +115,23 @@ const CreateProductAdminModal = ({ fetchProducts }) => {
                 </div>
                 <div className='col-span-2 sm:col-span-1'>
                   <label htmlFor='category' className='block mb-2 text-sm font-bold text-gray-900 dark:text-white'>
-                    Categoria
+                    Categoría
                   </label>
                   <select
                     onChange={(e) => setCategory(e.target.value)}
                     id='category'
                     value={category}
                     className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'>
-                    <option value=''>-- Select category --</option>
-                    <option value='FOOD'>Comida</option>
-                    <option value='DRINKS'>Bebidas</option>
-                    <option value='DESSERTS'>Postres</option>
+                    <option value=''>Seleccione una categoría</option>
+                    <option className='text-lg' value='FOOD'>
+                      Comida
+                    </option>
+                    <option className='text-lg' value='DRINKS'>
+                      Bebidas
+                    </option>
+                    <option className='text-lg' value='DESSERTS'>
+                      Postres
+                    </option>
                   </select>
                 </div>
                 <div className='col-span-2'>
@@ -137,7 +143,7 @@ const CreateProductAdminModal = ({ fetchProducts }) => {
                     id='description'
                     rows={4}
                     className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                    placeholder='Descripcion del producto'
+                    placeholder='Descripción del producto'
                     value={description}
                   />
                 </div>
