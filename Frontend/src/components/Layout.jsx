@@ -34,7 +34,7 @@ const Layout = () => {
     <ProductsContext.Provider value={{ products, setProducts }}>
       <ProductsInCartContext.Provider value={{ productsInCart, setProductsInCart }}>
         <OrdersContext.Provider value={{ orders, setOrders }}>
-          <div className='h-auto lg:h-screen w-full min-w-[400px] m-auto bg-[#EAEAF5]'>
+          <div className='min-h-screen h-auto lg:h-screen w-full min-w-[400px] m-auto bg-[#EAEAF5]'>
             {/* Header */}
             <Header productsInCart={productsInCart} cartRef={cartRef} />
             {/* Products */}
