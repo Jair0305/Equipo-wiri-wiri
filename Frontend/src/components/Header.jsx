@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import munchEZLogo from '../assets/logos/MuncEZ-dark.svg'
-import SvgUserMenu from './SvgUserMenu'
 import { useState, useEffect, useRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons'
-import CartFlotantButton from './CartFlotantButton'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Helpers/useAuth'
+import { faArrowRightFromBracket, faGear } from '@fortawesome/free-solid-svg-icons'
+import CartFlotantButton from './CartFlotantButton'
+import SvgUserMenu from './SvgUserMenu'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import munchEZLogo from '../assets/logos/MunchEZ-dark-christmas.svg'
 
 const Header = ({ productsInCart, cartRef, error }) => {
   const navigate = useNavigate()
@@ -114,6 +114,7 @@ const Header = ({ productsInCart, cartRef, error }) => {
 Header.propTypes = {
   productsInCart: PropTypes.array,
   cartRef: PropTypes.object,
+  error: PropTypes.string,
 }
 
 export default Header

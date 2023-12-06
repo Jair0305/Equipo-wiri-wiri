@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Modal } from 'flowbite-react'
+import { Badge, Button, Modal } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 
 const EditProductAdminModal = ({ fetchProducts, product }) => {
-  const { id, name, price, type, description } = product
+  const { id, name, price, type, description, active } = product
 
   const [openModal, setOpenModal] = useState(false)
   const [newName, setNewName] = useState(name)
@@ -87,8 +87,14 @@ const EditProductAdminModal = ({ fetchProducts, product }) => {
       </Button>
 
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>
-          Editando <span className='text-sm font-bold'>- {name}</span>
+        <Modal.Header className='flex justify-start items-center gap-2'>
+          <p className='flex justify-start items-center gap-2'>
+            Editando{' '}
+            <Badge size='sm' color={active ? 'success' : 'failure'}>
+              {active ? 'Activo' : 'Inactivo'}
+            </Badge>
+            <span className='text-sm font-bold'>{name}</span>
+          </p>
         </Modal.Header>
         <Modal.Body>
           {error && (

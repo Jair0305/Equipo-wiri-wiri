@@ -15,8 +15,8 @@ import EmployeesAdmin from '../pages/EmployeesAdmin'
 import ProductsAdmin from '../pages/ProductsAdmin'
 import OrdersAdmin from '../pages/OrdersAdmin'
 import { useAuth } from '../Helpers/useAuth'
-import AdminModal from '../components/CreateProductAdminModal'
 import ErrorPage from '../components/ErrorPage'
+import Snowfall from '../components/Snowfall'
 
 const PrivateRoute = ({ element, roles }) => {
   const { isLoggedIn, role } = useAuth()
@@ -46,25 +46,28 @@ const PrivateRoute = ({ element, roles }) => {
 
 const AppRouter = () => {
   return (
-    <Routes>
-      <Route index path='/' element={<Login />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/cashier' element={<PrivateRoute element={<Layout />} roles={['CASHIER']} />}>
-        <Route index path='food' element={<Food />} />
-        <Route path='drinks' element={<Drinks />} />
-        <Route path='desserts' element={<Desserts />} />
-      </Route>
-      <Route path='/kitchen' element={<PrivateRoute element={<LayoutKitchen />} roles={['KITCHEN']} />}>
-        <Route path='' element={<Orders />} />
-      </Route>
-      <Route path='/admin' element={<PrivateRoute element={<AdminLayout />} roles={['ADMIN']} />}>
-        <Route index path='dashboard' element={<AdminDashboard />} />
-        <Route path='dashboard/employees' element={<EmployeesAdmin />} />
-        <Route path='dashboard/products' element={<ProductsAdmin />} />
-        <Route path='dashboard/orders' element={<OrdersAdmin />} />
-      </Route>
-      <Route path='*' element={<ErrorPage />} />
-    </Routes>
+    <>
+      <Snowfall />
+      <Routes>
+        <Route index path='/' element={<Login />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/cashier' element={<PrivateRoute element={<Layout />} roles={['CASHIER']} />}>
+          <Route index path='food' element={<Food />} />
+          <Route path='drinks' element={<Drinks />} />
+          <Route path='desserts' element={<Desserts />} />
+        </Route>
+        <Route path='/kitchen' element={<PrivateRoute element={<LayoutKitchen />} roles={['KITCHEN']} />}>
+          <Route path='' element={<Orders />} />
+        </Route>
+        <Route path='/admin' element={<PrivateRoute element={<AdminLayout />} roles={['ADMIN']} />}>
+          <Route index path='dashboard' element={<AdminDashboard />} />
+          <Route path='dashboard/employees' element={<EmployeesAdmin />} />
+          <Route path='dashboard/products' element={<ProductsAdmin />} />
+          <Route path='dashboard/orders' element={<OrdersAdmin />} />
+        </Route>
+        <Route path='*' element={<ErrorPage />} />
+      </Routes>
+    </>
   )
 }
 
