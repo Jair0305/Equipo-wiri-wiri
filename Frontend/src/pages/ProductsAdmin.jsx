@@ -73,7 +73,7 @@ const ProductsAdmin = () => {
   return (
     <div className='flex flex-col'>
       <ProductSearch products={allProducts} onSearch={handleSearch} />
-      <div className=' flex flex-col-reverse gap-4 items-center md:flex-row md:justify-between lg:pr-10 lg:pl-10 pb-8 bg-[#EAEAF5]'>
+      <div className='flex flex-col-reverse gap-4 items-center md:flex-row md:justify-between lg:pr-10 lg:pl-10 pb-8 bg-[#EAEAF5]'>
         <h1 className='text-3xl font-bold flex flex-col items-center md:flex-row md:items-end'>
           Productos Activos
           <span className='text-xl text-[#6e6e6e] pl-2'>{activeProducts.length} resultados</span>

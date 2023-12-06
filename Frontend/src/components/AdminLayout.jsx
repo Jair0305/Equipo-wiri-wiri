@@ -4,7 +4,7 @@ import Navigation from './Navigation'
 
 const AdminLayout = () => {
   return (
-    <div className='h-auto lg:h-screen w-full min-w-[400px] m-auto bg-[#EAEAF5]'>
+    <div className='h-auto min-h-screen lg:h-screen w-full min-w-[400px] m-auto bg-[#EAEAF5]'>
       {/* Header */}
       <Header />
       {/* Products */}

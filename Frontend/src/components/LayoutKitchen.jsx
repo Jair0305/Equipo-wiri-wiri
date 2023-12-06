@@ -7,7 +7,7 @@ const LayoutKitchen = () => {
   const [orders, setOrders] = useState([])
   return (
     <OrdersContext.Provider value={{ orders, setOrders }}>
-      <div className='h-auto lg:h-screen w-full min-w-[400px] m-auto bg-[#EAEAF5]'>
+      <div className='h-auto min-h-screen lg:h-screen w-full min-w-[400px] m-auto bg-[#EAEAF5]'>
         {/* Header */}
         <Header />
         {/* Products */}
