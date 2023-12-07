@@ -3,19 +3,15 @@ import { useState } from 'react'
 import { Button, Modal } from 'flowbite-react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { deleteEmployee } from '../api/personal'
 
 const DeleteEmployeeAdminModal = ({ fetchEmployees, employee }) => {
   const [employeeToDelete, setEmployeeToDelete] = useState(false)
 
   const handleDelete = async (id) => {
     try {
-      const deleteEmployee = await fetch(`http://127.0.0.1:8080/personal/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if (deleteEmployee) {
+      const deletedEmployee = await deleteEmployee(id)
+      if (deletedEmployee) {
         // La solicitud DELETE se completó con éxito, ahora se puede actualizar la lista de empleados
         setEmployeeToDelete(null)
         await fetchEmployees()

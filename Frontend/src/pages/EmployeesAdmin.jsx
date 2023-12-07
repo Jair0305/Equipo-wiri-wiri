@@ -5,6 +5,7 @@ import { getActiveEmployees } from '../api/personal'
 import CreateEmployeeAdminModal from '../components/CreateEmployeeAdminModal'
 import DeleteEmployeeAdminModal from '../components/DeleteEmployeeAdminModal'
 import EditEmployeeAdminModal from '../components/EditEmployeeAdminModal'
+import CreateUserAdminModal from '../components/CreateUserAdminModal'
 
 const EmployeesAdmin = () => {
   const [allEmployees, setAllEmployees] = useState([])
@@ -39,9 +40,12 @@ const EmployeesAdmin = () => {
 
   return (
     <>
-      <section className='flex flex-col-reverse md:flex-row justify-between items-center m-auto max-w-[1224px] gap-4 py-4 bg-[#EAEAF5] z-10'>
+      <section className='flex flex-col-reverse md:flex-row justify-between items-center m-auto max-w-[1224px] gap-4 pt-4 py-6 bg-[#EAEAF5] z-10'>
         <h1 className='text-3xl font-bold text-primary'>Empleados</h1>
-        <CreateEmployeeAdminModal fetchEmployees={fetchEmployees} />
+        <div className='flex gap-4'>
+          <CreateEmployeeAdminModal fetchEmployees={fetchEmployees} />
+          <CreateUserAdminModal fetchEmployees={fetchEmployees} />
+        </div>
       </section>
 
       <section className='overflow-x-auto m-auto max-w-[1224px]'>

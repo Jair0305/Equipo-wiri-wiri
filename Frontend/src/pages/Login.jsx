@@ -87,7 +87,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Error en la autenticación:', error)
-      setErrors((prevErrors) => [...prevErrors, 'Error en la autenticación. Por favor, intenta de nuevo.'])
+      setErrors((prevErrors) => [...prevErrors, 'Usuario o contraseña incorrecta. Por favor, intenta de nuevo.'])
     }
   }
 
