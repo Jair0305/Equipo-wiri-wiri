@@ -70,10 +70,10 @@ const Login = () => {
         // Redirigir según el rol
         switch (userRole) {
           case 'ADMIN':
-            navigate('/admin/dashboard')
+            navigate('/admin/dashboard/employees')
             break
           case 'CASHIER':
-            navigate('/cashier')
+            navigate('/cashier/food')
             break
           case 'KITCHEN':
             navigate('/kitchen')
@@ -87,7 +87,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Error en la autenticación:', error)
-      setErrors((prevErrors) => [...prevErrors, 'Error en la autenticación. Por favor, intenta de nuevo.'])
+      setErrors((prevErrors) => [...prevErrors, 'Usuario o contraseña incorrecta. Por favor, intenta de nuevo.'])
     }
   }
 

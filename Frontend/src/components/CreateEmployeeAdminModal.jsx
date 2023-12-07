@@ -91,7 +91,7 @@ const CreateEmployeeAdminModal = ({ fetchEmployees }) => {
 
   return (
     <Flowbite>
-      <Button color='success' className='flex gap-4' size='xl' onClick={() => setOpenModal(true)}>
+      <Button color='success' className='flex gap-4' size='md' onClick={() => setOpenModal(true)}>
         <FontAwesomeIcon icon={faPlus} className='h-[20px] mr-2' />
         Agregar Empleado
       </Button>

@@ -17,6 +17,7 @@ import OrdersAdmin from '../pages/OrdersAdmin'
 import { useAuth } from '../Helpers/useAuth'
 import ErrorPage from '../components/ErrorPage'
 import Snowfall from '../components/Snowfall'
+import Resume from '../pages/Resume'
 
 const PrivateRoute = ({ element, roles }) => {
   const { isLoggedIn, role } = useAuth()
@@ -64,6 +65,7 @@ const AppRouter = () => {
           <Route path='dashboard/employees' element={<EmployeesAdmin />} />
           <Route path='dashboard/products' element={<ProductsAdmin />} />
           <Route path='dashboard/orders' element={<OrdersAdmin />} />
+          <Route path='dashboard/resume' element={<Resume />} />
         </Route>
         <Route path='*' element={<ErrorPage />} />
       </Routes>
