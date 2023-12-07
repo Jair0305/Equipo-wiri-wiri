@@ -172,7 +172,9 @@ const Resume = () => {
             }
             fileName={pdfFileName}>
             {({ loading: pdfLoading, url, error, blob }) => (
-              <button className='mt-4 p-2 bg-green-500 text-white rounded-md' disabled={loading || pdfLoading}>
+              <button
+                className='flex justify-center items-center gap-2 mt-4 p-2 bg-green-500 hover:bg-green-700 text-white rounded-md transition-all'
+                disabled={loading || pdfLoading}>
                 <FontAwesomeIcon icon={loading || pdfLoading ? faHourglassStart : faDownload} />
                 {loading || pdfLoading ? 'Cargando...' : 'Descargar Resumen'}
               </button>

@@ -8,6 +8,25 @@ import dessertImg from '../assets/images/dessert.jpg'
 const ProductAdminCard = ({ product, handleDisable, fetchProducts }) => {
   const { id, name, description, type, active } = product
 
+  const handleDelete = async (productId) => {
+    try {
+      const deleteProduct = await fetch(`http://localhost:8080/product/delete/${productId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (deleteProduct) {
+        // La solicitud DELETE se completó con éxito, ahora se puede actualizar la lista de productos
+        await fetchProducts()
+      } else {
+        console.error('Error al eliminar el producto:', deleteProduct.statusText)
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud DELETE:', error)
+    }
+  }
+
   return (
     <div className='grid grid-cols-1 md:grid-cols-8 lg:grid-cols-8 xl:grid-cols-7 md:gap-2 p-4 justify-center items-center shadow-xl rounded-lg bg-[#F7F6FF] mb-8 hover:scale-[1.01] transition-all'>
       <img
@@ -39,6 +58,7 @@ const ProductAdminCard = ({ product, handleDisable, fetchProducts }) => {
             <FontAwesomeIcon
               icon={faTrashCan}
               className='transition-colors h-[30px] lg:h-[25px] text-red-700 hover:text-red-600'
+              onClick={() => handleDelete(id)}
             />
           </button>
         </div>
