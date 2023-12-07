@@ -339,6 +339,8 @@ const OrdersAdmin = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={onPageChange}
+            previousLabel='Anterior'
+            nextLabel='Siguiente'
             showIcons
           />
         </div>

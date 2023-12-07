@@ -22,6 +22,13 @@ const Navigation = () => {
           to={role === 'ADMIN' ? '/admin/dashboard/orders' : '/cashier/desserts'}>
           {role === 'ADMIN' ? 'Ordenes' : 'Postres'}
         </NavLink>
+        {role === 'ADMIN' && (
+          <NavLink
+            className='transition-all font-bold text-xl border-[2px] border-transparent text-[#ABA7A7] hover:text-[#2D2D2D] hover:border-t-[#F3C623]'
+            to='/admin/dashboard/resume'>
+            Resume
+          </NavLink>
+        )}
       </ul>
     </nav>
   )

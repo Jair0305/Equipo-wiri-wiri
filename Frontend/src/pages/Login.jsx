@@ -70,10 +70,10 @@ const Login = () => {
         // Redirigir según el rol
         switch (userRole) {
           case 'ADMIN':
-            navigate('/admin/dashboard')
+            navigate('/admin/dashboard/employees')
             break
           case 'CASHIER':
-            navigate('/cashier')
+            navigate('/cashier/food')
             break
           case 'KITCHEN':
             navigate('/kitchen')
