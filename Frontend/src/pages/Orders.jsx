@@ -16,16 +16,20 @@ const Orders = () => {
   }
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      fetchOrders()
+    }, 5000)
+
+    // Limpiar el intervalo cuando el componente se desmonta o cuando 'orders' cambia
+    return () => clearInterval(intervalId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orders])
+
+  useEffect(() => {
+    // Primera carga al montar el componente
     fetchOrders()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    setInterval(() => {
-      fetchOrders()
-    }, 15000)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orders])
 
   return (
     <div className='mx-4 max-w-screen-xl flex justify-center h-screen md:h-[calc(100vh-220px)] overflow-y-auto pr-6'>
