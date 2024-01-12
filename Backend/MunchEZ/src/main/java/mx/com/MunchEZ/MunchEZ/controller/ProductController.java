@@ -1,11 +1,14 @@
 package mx.com.MunchEZ.MunchEZ.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import mx.com.MunchEZ.MunchEZ.domain.order.OrderRepository;
 import mx.com.MunchEZ.MunchEZ.domain.product.*;
 import mx.com.MunchEZ.MunchEZ.infra.error.IntegrityValidation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,6 +24,8 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private OrderRepository orderRepository;
 
 //    @GetMapping
 //    public ResponseEntity<Page<DataListProduct>> listar(@PageableDefault(size = 10, page = 0, sort = {"type"}) Pageable pageable)
@@ -82,7 +87,7 @@ public class ProductController {
     }
 
     @GetMapping("/drinks")
-    public List<Product> getProdcutsByDrinks()
+    public List<Product> getProductsByDrinks()
     {
         return productRepository.findAllByTypeAndActive(Type.DRINKS, Boolean.TRUE);
     }
@@ -129,12 +134,24 @@ public class ProductController {
 
     @DeleteMapping("/delete/{productId}")
     @Transactional
-    public ResponseEntity<DataResponseProduct> deleteProductFromDataBas(@PathVariable Long productId)
+    public ResponseEntity<?> deleteProductFromDataBas(@PathVariable Long productId)
     {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new IntegrityValidation("Product not found with id: " + productId));
-        productRepository.delete(product);
-        DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
-        return ResponseEntity.ok(dataResponseProduct);
+        try
+        {
+            Product product = productRepository.findById(productId).orElseThrow(() -> new IntegrityValidation("Product not found with id: " + productId));
+
+            if(!orderRepository.findByProduct(product).isEmpty())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("cant delete this product because is in a current order.");
+
+            productRepository.delete(product);
+            DataResponseProduct dataResponseProduct = new DataResponseProduct(product.getId(), product.getName(), product.getPrice(), product.getDescription(), product.getType());
+            return ResponseEntity.ok(dataResponseProduct);
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
+        }
+
     }
     //Activate product
     @PostMapping("/{id}")

@@ -1,6 +1,7 @@
 package mx.com.MunchEZ.MunchEZ.domain.order;
 
 import jakarta.transaction.Transactional;
+import mx.com.MunchEZ.MunchEZ.domain.product.Product;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +15,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAll();
     List<Order> findAllByStateAndActive(State state, Boolean active);
 
+    List<Order> findByProduct(Product product);
     List<Order> findAllByOrderByData();
 
     @Modifying
