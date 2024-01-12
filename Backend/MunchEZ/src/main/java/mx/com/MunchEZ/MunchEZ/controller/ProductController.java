@@ -140,7 +140,7 @@ public class ProductController {
         {
             Product product = productRepository.findById(productId).orElseThrow(() -> new IntegrityValidation("Product not found with id: " + productId));
 
-            if(!orderRepository.findByProduct(product).isEmpty())
+            if(!orderRepository.findOrdersByProductId(productId).isEmpty())
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("cant delete this product because is in a current order.");
 
             productRepository.delete(product);
