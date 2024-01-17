@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Badge, Button, Card, Modal, Pagination, Select, Table } from 'flowbite-react'
-import { getAllOrders } from '../api/orders'
+import { deleteOrderApi, getAllOrders } from '../api/orders'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCancel, faCheckCircle, faClock, faExclamationCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { toast } from 'react-toastify'
 
 const OrdersAdmin = () => {
   const [allOrders, setAllOrders] = useState([])
@@ -116,14 +117,39 @@ const OrdersAdmin = () => {
 
     setFilteredOrders(filteredData)
   }
+
+  const notifyErrorDeletingOrder = (type, text) => {
+    if (type === 'error') {
+      toast.error(text, {
+        position: 'top-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      })
+    } else {
+      toast.success(text, {
+        position: 'top-center',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      })
+    }
+  }
   const handleDelete = async (id) => {
-    const response = await fetch(`http://127.0.0.1:8080/order/deleteone/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    // setOpenModal(false)
+    const response = await deleteOrderApi(id)
+    if (!response.ok) {
+      notifyErrorDeletingOrder('error', 'Error al eliminar la orden')
+      return
+    }
+    notifyErrorDeletingOrder('success', `Orden con id ${id} eliminada correctamente`)
     setOrderToDelete(null)
     await fetchOrders()
   }

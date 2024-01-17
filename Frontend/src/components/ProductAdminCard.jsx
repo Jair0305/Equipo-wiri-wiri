@@ -1,26 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faToggleOff, faToggleOn, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import EditProductAdminModal from './EditProductAdminModal'
-import foodImg from '../assets/images/food.jpg'
-import drinkImg from '../assets/images/drink.jpg'
-import dessertImg from '../assets/images/dessert.jpg'
+import foodImg from '../assets/images/food.webp'
+import drinkImg from '../assets/images/drink.webp'
+import dessertImg from '../assets/images/dessert.webp'
+import { deleteProductApi } from '../api/products'
 
-const ProductAdminCard = ({ product, handleDisable, fetchProducts }) => {
+import PropTypes from 'prop-types'
+
+const ProductAdminCard = ({ product, handleDisable, fetchProducts, notifyErrorDeletingProduct }) => {
   const { id, name, description, type, active } = product
 
   const handleDelete = async (productId) => {
     try {
-      const deleteProduct = await fetch(`http://localhost:8080/product/delete/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if (deleteProduct) {
+      const deletedProduct = await deleteProductApi(productId)
+      if (deletedProduct.ok) {
         // La solicitud DELETE se completó con éxito, ahora se puede actualizar la lista de productos
         await fetchProducts()
+        notifyErrorDeletingProduct('success', 'Producto eliminado con éxito.')
       } else {
-        console.error('Error al eliminar el producto:', deleteProduct.statusText)
+        // El producto ya está en una orden y no puede ser eliminado
+        notifyErrorDeletingProduct('error', 'El producto ya está en una orden y no puede ser eliminado.')
       }
     } catch (error) {
       console.error('Error al realizar la solicitud DELETE:', error)
@@ -40,7 +40,11 @@ const ProductAdminCard = ({ product, handleDisable, fetchProducts }) => {
       </div>
       <section className='md:col-span-1 flex md:flex-col justify-evenly items-center gap-4 h-[100px] lg:h-full md:pr-4 md:pl-6 border-t-[1px] md:border-l-[1px] md:border-t-0 border-[#e0e0e0]'>
         <div className='text-sm lg:text-base font-bold'>
-          <EditProductAdminModal fetchProducts={fetchProducts} product={product} />
+          <EditProductAdminModal
+            fetchProducts={fetchProducts}
+            product={product}
+            notifyErrorDeletingProduct={notifyErrorDeletingProduct}
+          />
         </div>
         <div className='text-sm lg:text-base font-bold'>
           <button>
@@ -65,6 +69,13 @@ const ProductAdminCard = ({ product, handleDisable, fetchProducts }) => {
       </section>
     </div>
   )
+}
+
+ProductAdminCard.propTypes = {
+  product: PropTypes.object.isRequired,
+  handleDisable: PropTypes.func.isRequired,
+  fetchProducts: PropTypes.func.isRequired,
+  notifyErrorDeletingProduct: PropTypes.func.isRequired,
 }
 
 export default ProductAdminCard

@@ -1,6 +1,8 @@
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
 import Navigation from './Navigation'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const AdminLayout = () => {
   return (
@@ -13,6 +15,7 @@ const AdminLayout = () => {
           <Navigation />
           <Outlet />
         </main>
+        <ToastContainer className='mt-32 z-10' />
       </div>
     </div>
   )

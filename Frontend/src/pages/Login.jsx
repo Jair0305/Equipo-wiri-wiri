@@ -2,6 +2,7 @@ import { useState } from 'react'
 import munchEZLogo from '../assets/logos/MuncEZ-dark.svg'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Helpers/useAuth'
+import { loginApi } from '../api/auth'
 
 const Login = () => {
   const [errors, setErrors] = useState([])
@@ -46,13 +47,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      const response = await fetch('http://127.0.0.1:8080/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user: { username, password } }),
-      })
+      const response = await loginApi(username, password)
 
       if (!response.ok) {
         throw new Error('Error en la autenticación')

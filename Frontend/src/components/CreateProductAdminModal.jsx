@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, Modal } from 'flowbite-react'
 import { useState } from 'react'
 import { Flowbite } from 'flowbite-react'
+import { postProductApi } from '../api/products'
 
-const CreateProductAdminModal = ({ fetchProducts }) => {
+const CreateProductAdminModal = ({ fetchProducts, notifyErrorDeletingProduct }) => {
   const [openModal, setOpenModal] = useState(false)
 
   const [name, setName] = useState('')
@@ -49,16 +50,17 @@ const CreateProductAdminModal = ({ fetchProducts }) => {
       setError('Todos los campos son obligatorios.')
       return
     }
-    // send data to backend
-    console.log(product)
 
-    await fetch('http://localhost:8080/product', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(product),
-    })
+    // send data to backend when all fields are filled
+    try {
+      const productCreated = await postProductApi(product)
+      if (!productCreated) {
+        setError('Error al crear el producto.')
+      }
+      notifyErrorDeletingProduct('success', 'Producto creado con éxito.')
+    } catch (error) {
+      console.error('Error al crear el producto:', error)
+    }
     // fetch products again
     fetchProducts()
     // clear UI

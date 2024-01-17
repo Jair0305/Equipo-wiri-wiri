@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import foodImg from '../assets/images/food.jpg'
+import foodImg from '../assets/images/food.webp'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from 'react'

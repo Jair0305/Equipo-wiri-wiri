@@ -1,19 +1,21 @@
+const apiUrl = 'https://munchez.onrender.com'
+
 // ---------------------  GET ALL EMPLOYEES (READ)
 export async function getAllEmployees() {
-  const response = await fetch('http://127.0.0.1:8080/personal')
+  const response = await fetch(`${apiUrl}/personal`)
   const result = await response.json()
   return result
 }
 
 export async function getActiveEmployees() {
-  const response = await fetch('http://127.0.0.1:8080/personal/active')
+  const response = await fetch(`${apiUrl}/personal/active`)
   const result = await response.json()
   return result
 }
 
 // ---------------------  POST EMPLOYEE (CREATE)
 export async function postEmployee(employee) {
-  const response = await fetch('http://127.0.0.1:8080/personal', {
+  const response = await fetch(`${apiUrl}/personal/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(employee),
@@ -24,7 +26,7 @@ export async function postEmployee(employee) {
 // ---------------------  PUT EMPLOYEE (EDIT)
 
 export async function putEmployee(id, employee) {
-  const response = await fetch(`http://127.0.0.1:8080/personal/${id}`, {
+  const response = await fetch(`${apiUrl}/personal/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(employee),
@@ -35,7 +37,7 @@ export async function putEmployee(id, employee) {
 // ---------------------  DELETE EMPLOYEE (DELETE)
 
 export async function deleteEmployee(id) {
-  const response = await fetch(`http://127.0.0.1:8080/personal/${id}`, {
+  const response = await fetch(`${apiUrl}/personal/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -45,7 +47,7 @@ export async function deleteEmployee(id) {
 // ---------------------  POST USER (REGISTER)
 
 export async function postUser(user) {
-  const response = await fetch('http://127.0.0.1:8080/auth/register', {
+  const response = await fetch(`${apiUrl}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(user),

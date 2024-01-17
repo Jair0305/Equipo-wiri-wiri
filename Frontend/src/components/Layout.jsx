@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const Layout = () => {
   //refs
-  const cartRef = useRef(null) // Referencia para el componente Ca
+  const cartRef = useRef(null) // Referencia para el componente Cart
   // Global state
   const [productsInCart, setProductsInCart] = useState([])
   const [products, setProducts] = useState({ food: [], drinks: [], desserts: [] })

@@ -10,7 +10,7 @@ import { faPaperPlane, faXmark } from '@fortawesome/free-solid-svg-icons'
 //toastify
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { postOrder } from '../api/products'
+import { postOrder } from '../api/orders'
 import { getOrders } from '../api/orders'
 
 const Cart = forwardRef(function Cart(props, ref) {

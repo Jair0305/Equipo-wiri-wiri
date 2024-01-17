@@ -3,8 +3,9 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Badge, Button, Modal } from 'flowbite-react'
 import { useEffect, useState } from 'react'
+import { putProductApi } from '../api/products'
 
-const EditProductAdminModal = ({ fetchProducts, product }) => {
+const EditProductAdminModal = ({ fetchProducts, product, notifyErrorDeletingProduct }) => {
   const { id, name, price, type, description, active } = product
 
   const [openModal, setOpenModal] = useState(false)
@@ -56,20 +57,19 @@ const EditProductAdminModal = ({ fetchProducts, product }) => {
     }
 
     // send data to backend
-    console.log(newProduct)
+    notifyErrorDeletingProduct('success', 'Producto actualizado con éxito.')
 
-    const response = await fetch(`http://localhost:8080/product/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newProduct),
-    })
-
-    console.log('response', response)
-
-    // fetch products again
-    await fetchProducts()
+    try {
+      const response = await putProductApi(id, newProduct)
+      if (response.ok) {
+        // fetch products again
+        await fetchProducts()
+      } else {
+        notifyErrorDeletingProduct('error', 'Error al actualizar el producto.')
+      }
+    } catch (error) {
+      console.error('Error al realizar la solicitud PUT:', error)
+    }
 
     // clear UI
     clearErrors()
@@ -177,12 +177,14 @@ const EditProductAdminModal = ({ fetchProducts, product }) => {
 }
 EditProductAdminModal.propTypes = {
   fetchProducts: PropTypes.func.isRequired,
+  notifyErrorDeletingProduct: PropTypes.func.isRequired,
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired,
   }).isRequired,
 }
 

@@ -14,7 +14,6 @@ const EmployeesAdmin = () => {
 
   const fetchEmployees = async () => {
     const employees = await getActiveEmployees()
-    console.log(employees)
     setAllEmployees(employees)
     setFilteredEmployees(employees)
   }
@@ -32,7 +31,11 @@ const EmployeesAdmin = () => {
   const onPageChange = (page) => setCurrentPage(page)
   const startIndex = (currentPage - 1) * employeesPerPage
   const endIndex = startIndex + employeesPerPage
-  const employeesToDisplay = filteredEmployees.slice(startIndex, endIndex)
+
+  let employeesToDisplay = []
+  if (filteredEmployees.length > 0) {
+    employeesToDisplay = filteredEmployees?.slice(startIndex, endIndex)
+  }
 
   useEffect(() => {
     fetchEmployees()

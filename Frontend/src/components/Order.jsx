@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
+import { cancelOrderApi, markOrderAsReadyApi } from '../api/orders'
 
 const Order = ({ order, fetchOrders }) => {
   const { id, description, name, num, orderDetails, ordertype } = order
@@ -26,28 +27,32 @@ const Order = ({ order, fetchOrders }) => {
 
   const confirmationMessages = {
     MARK_AS_READY: '¿Estás seguro de marcar esta orden como lista?',
-    DELETE_ORDER: '¿Estás seguro de eliminar esta orden?',
+    DELETE_ORDER: '¿Estás seguro de cancelar esta orden?',
   }
 
   const cancelOrder = async () => {
     // Implement logic to cancel order
-    await fetch(`http://localhost:8080/order/cancelorder/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    try {
+      const response = await cancelOrderApi(id)
+      if (!response.ok) {
+        throw new Error('Error cancelling order')
+      }
+    } catch (error) {
+      console.error('Error cancelling order:', error)
+    }
     await fetchOrders()
   }
 
   const markOrderAsReady = async () => {
     // Implement logic to mark order as ready
-    await fetch(`http://localhost:8080/order/deliveredorder/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    try {
+      const response = await markOrderAsReadyApi(id)
+      if (!response.ok) {
+        throw new Error('Error marking order as ready')
+      }
+    } catch (error) {
+      console.error('Error marking order as ready:', error)
+    }
     await fetchOrders()
   }
 
